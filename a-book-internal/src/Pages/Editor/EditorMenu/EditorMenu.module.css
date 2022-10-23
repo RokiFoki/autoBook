@@ -1,0 +1,39 @@
+.EditorMenu {
+  background-color: var(--primary-background-color);
+  color: #fff;
+}
+
+.EditorMenu .menuItemText {
+  display: none;
+}
+
+.EditorMenu:hover .menuItemText,
+.EditorMenuExpanded .menuItemText {
+  display: initial;
+  padding-right: 20px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 8px 0;
+}
+
+.list li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  padding: 4px 8px;
+  white-space: nowrap;
+  height: 30px;
+}
+
+.list li.selected {
+  background-color: var(--primary-background-color-selected);
+}
+
+.list li:hover {
+  background-color: var(--primary-background-color-hover);
+  transition: background-color 300ms ease;
+}

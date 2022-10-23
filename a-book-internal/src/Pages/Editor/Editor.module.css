@@ -1,0 +1,8 @@
+.Editor {
+  display: flex;
+  align-items: stretch;
+}
+
+.content {
+  flex-grow: 1;
+}

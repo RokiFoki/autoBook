@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #fafafa;
+  background-color: var(--background-color);
 }
 
 .App main {
