@@ -1,0 +1,8 @@
+.Header {
+  padding: 8px;
+}
+
+.Navigation {
+  display: flex;
+  gap: 4px;
+}
