@@ -3,6 +3,9 @@
 }
 
 .Navigation {
-  display: flex;
-  gap: 4px;
+  width: 100%;
+}
+
+.Navigation ul:global(.ant-menu-horizontal) {
+  width: 100%;
 }
