@@ -1,16 +1,22 @@
-import { useState } from "react";
 import styles from "./EditorMenu.module.css";
 import { PlusOutlined } from "@ant-design/icons";
 import classNames from "classnames";
+import { useRecoilState } from "recoil";
+import { Operation, operationInProgress } from "../recoil/operation";
 
-const Options = [{ icon: <PlusOutlined />, text: "Add new" }] as const;
-
-type OptionTypes = typeof Options[number]["text"];
+type Options = Array<{
+  icon: React.ReactElement;
+  text: string;
+  key: Operation;
+}>;
+const options: Options = [
+  { icon: <PlusOutlined />, text: "Add new", key: "Add" },
+];
 
 const EditorMenu = () => {
-  const [selectedOption, setOption] = useState<OptionTypes | null>(null);
+  const [selectedOption, setOption] = useRecoilState(operationInProgress);
 
-  const toggleOption = (option: OptionTypes) => {
+  const toggleOption = (option: Operation) => {
     if (selectedOption === option) setOption(null);
     else setOption(option);
   };
@@ -22,12 +28,13 @@ const EditorMenu = () => {
       })}
     >
       <ul className={styles.list}>
-        {Options.map((option) => (
+        {options.map((option) => (
           <MenuItem
-            icon={<PlusOutlined />}
-            text="Add New"
-            selected={selectedOption === option.text}
-            onClick={() => toggleOption(option.text)}
+            key={option.key}
+            icon={option.icon}
+            text={option.text}
+            selected={selectedOption === option.key}
+            onClick={() => toggleOption(option.key)}
           />
         ))}
       </ul>

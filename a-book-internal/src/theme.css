@@ -1,6 +1,8 @@
 .app-root {
   --background-color: #fafafa;
   --primary-background-color: #936ae6;
-  --primary-background-color-selected: #8264bd;
+  --primary-background-color-selected: #744ebf;
   --primary-background-color-hover: #743fde;
+
+  --primary-background-color-light: #ae8df2;
 }
