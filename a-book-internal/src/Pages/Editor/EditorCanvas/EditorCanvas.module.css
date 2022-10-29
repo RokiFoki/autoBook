@@ -1,0 +1,13 @@
+.EditorCanvas {
+  flex-grow: 1;
+}
+
+.editorCanvasContent {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, lightgrey 1px, transparent 1px),
+    linear-gradient(to bottom, lightgrey 1px, transparent 1px);
+
+  min-width: 100%;
+  min-height: 100%;
+  position: relative;
+}
