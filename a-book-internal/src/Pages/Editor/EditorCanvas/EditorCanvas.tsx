@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import useEvent from "../../../utils/hooks/useEvent";
 import Table from "../Elements/Tables/Table";
-import { selectedAddItem } from "../recoil/selectedAddItem";
+import { AddItem } from "../recoil/selectedAddItem";
 import styles from "./EditorCanvas.module.css";
+import ItemPreview from "./ItemPreview/ItemPreview";
 
 const useMouseOn = <T extends HTMLElement>() => {
-  const [isOver, setIsOver] = useState(false);
+  const [isMouseOver, setIsOver] = useState(false);
   const elementRef = useRef<T>(null);
 
   useEffect(() => {
@@ -30,54 +29,33 @@ const useMouseOn = <T extends HTMLElement>() => {
     }
   }, [elementRef]);
 
-  return { elementRef, isOver };
+  return { elementRef, isMouseOver };
 };
 
-const useTablePreview = (
-  rootRef: React.RefObject<HTMLElement>,
-  isOver: boolean,
-  tableRef: React.RefObject<HTMLDivElement>
-) => {
-  const boundingBoxRef = useRef<DOMRect | undefined>(undefined);
-
-  const setPreview = useEvent((e: MouseEvent) => {
-    if (tableRef.current && boundingBoxRef.current && isOver) {
-      tableRef.current.style.display = "initial";
-      tableRef.current.style.left = `${e.x - boundingBoxRef.current.x}px`;
-      tableRef.current.style.top = `${e.y - boundingBoxRef.current.y}px`;
-    }
-  });
-
-  useEffect(() => {
-    if (isOver) {
-      const onMouseMove = (e: MouseEvent) => {
-        setPreview(e);
-      };
-      rootRef.current?.addEventListener("mousemove", onMouseMove);
-      boundingBoxRef.current = rootRef.current?.getBoundingClientRect();
-
-      const root = rootRef.current;
-      return () => root?.removeEventListener("mousemove", onMouseMove);
-    } else {
-      if (tableRef.current) {
-        tableRef.current.style.display = "none";
-      }
-    }
-  }, [isOver, rootRef, boundingBoxRef, setPreview, tableRef]);
+export type ItemData = {
+  itemKey: Exclude<AddItem, null>;
+  x: number;
+  y: number;
 };
-
 const EditorCanvas = () => {
-  const [item] = useRecoilState(selectedAddItem);
-  const { elementRef, isOver } = useMouseOn();
-  const tableRef = useRef<HTMLDivElement>(null);
-  useTablePreview(elementRef, isOver, tableRef);
+  const { elementRef, isMouseOver } = useMouseOn();
+
+  const [items, setItems] = useState<ItemData[]>([]);
 
   return (
     <article className={styles.EditorCanvas} ref={elementRef}>
       <div className={styles.editorCanvasContent}>
-        <div ref={tableRef} className={styles.table}>
-          {item && <Table type={item} />}
-        </div>
+        {items.map(({ x, y, itemKey }) => (
+          <div style={{ position: "absolute", top: y, left: x }}>
+            <Table type={itemKey} />
+          </div>
+        ))}
+
+        <ItemPreview
+          onAddItem={(item) => setItems([...items, item])}
+          rootRef={elementRef}
+          show={isMouseOver}
+        />
       </div>
     </article>
   );

@@ -1,0 +1,8 @@
+.table {
+  position: absolute;
+  opacity: 0.5;
+}
+
+.table > * {
+  transform: translate(-50%, -50%);
+}
