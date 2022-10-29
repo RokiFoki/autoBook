@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import useEvent from "../../../utils/hooks/useEvent";
 import Table from "../Elements/Tables/Table";
@@ -22,9 +22,10 @@ const useMouseOn = <T extends HTMLElement>() => {
       elementRef.current.addEventListener("mouseover", onMouseOver);
       elementRef.current.addEventListener("mouseleave", onMouseLeave);
 
+      const element = elementRef.current;
       return () => {
-        elementRef.current?.removeEventListener("mouseover", onMouseOver);
-        elementRef.current?.removeEventListener("mouseleave", onMouseLeave);
+        element.removeEventListener("mouseover", onMouseOver);
+        element.removeEventListener("mouseleave", onMouseLeave);
       };
     }
   }, [elementRef]);
@@ -55,14 +56,14 @@ const useTablePreview = (
       rootRef.current?.addEventListener("mousemove", onMouseMove);
       boundingBoxRef.current = rootRef.current?.getBoundingClientRect();
 
-      return () =>
-        rootRef.current?.removeEventListener("mousemove", onMouseMove);
+      const root = rootRef.current;
+      return () => root?.removeEventListener("mousemove", onMouseMove);
     } else {
       if (tableRef.current) {
         tableRef.current.style.display = "none";
       }
     }
-  }, [isOver, rootRef, boundingBoxRef]);
+  }, [isOver, rootRef, boundingBoxRef, setPreview, tableRef]);
 };
 
 const EditorCanvas = () => {
