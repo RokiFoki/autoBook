@@ -1,7 +1,17 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
-import { Button, Menu } from "antd";
+import { Menu, MenuProps } from "antd";
+
+const navigationItems: MenuProps["items"] = [
+  {
+    key: "/",
+    label: <Link to="/">aBook</Link>,
+  },
+  {
+    key: "/editor",
+    label: <Link to="/editor">Editor</Link>,
+  },
+];
 
 const Header = () => {
   const selectedKey = useLocation().pathname;
@@ -9,14 +19,11 @@ const Header = () => {
   return (
     <header className={styles.Header}>
       <nav className={styles.Navigation}>
-        <Menu mode="horizontal" selectedKeys={[selectedKey]}>
-          <Menu.Item key="/">
-            <Link to="/">aBook</Link>
-          </Menu.Item>
-          <Menu.Item key="/editor">
-            <Link to="/editor">Editor</Link>
-          </Menu.Item>
-        </Menu>
+        <Menu
+          mode="horizontal"
+          selectedKeys={[selectedKey]}
+          items={navigationItems}
+        ></Menu>
       </nav>
     </header>
   );
