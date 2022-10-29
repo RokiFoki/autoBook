@@ -1,6 +1,7 @@
 import { MouseEventHandler, useEffect, useRef } from "react";
 import { useRecoilState } from "recoil";
 import useEvent from "../../../../utils/hooks/useEvent";
+import usePersistentState from "../../../../utils/hooks/usePersistentState";
 import Table from "../../Elements/Tables/Table";
 import { selectedAddItem } from "../../recoil/selectedAddItem";
 import { ItemData } from "../EditorCanvas";
@@ -45,6 +46,10 @@ type ItemPreviewProps = {
   onAddItem: (item: ItemData) => unknown;
 };
 const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
+  const [cnt, setCnt] = usePersistentState(
+    { cnt: 1 },
+    "Editor/ItemPreview/cnt"
+  );
   const [item] = useRecoilState(selectedAddItem);
 
   const tableRef = useRef<HTMLDivElement>(null);
@@ -55,8 +60,10 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
     const { x, y, width, height } = tableRef.current.getBoundingClientRect();
     const { x: rootX, y: rootY } = rootRef.current.getBoundingClientRect();
 
+    setCnt({ cnt: cnt.cnt + 1 });
     onAddItem({
-      itemKey: item,
+      key: `Table${cnt.cnt}`,
+      itemType: item,
       x: x - rootX - width / 2,
       y: y - rootY - height / 2,
     });

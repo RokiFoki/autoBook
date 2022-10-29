@@ -8,6 +8,7 @@ const SidePanel = () => {
   switch (operation) {
     case "Add":
       return <AddSidePanel />;
+    case "Select":
     case null:
       return null;
     default: {

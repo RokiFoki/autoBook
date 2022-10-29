@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { AddItem, selectedAddItem } from "../recoil/selectedAddItem";
+import { AddItemType, selectedAddItem } from "../recoil/selectedAddItem";
 import styles from "./DetailsPanel.module.css";
 
 const DetailsPanel = () => {
@@ -13,7 +13,7 @@ const DetailsPanel = () => {
   );
 };
 
-type Props = { item: AddItem };
+type Props = { item: AddItemType };
 const DetailsPanelContent = ({ item }: Props) => {
   switch (item) {
     case "CorneredTable2":

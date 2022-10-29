@@ -1,5 +1,5 @@
 import styles from "./EditorMenu.module.css";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SelectOutlined } from "@ant-design/icons";
 import classNames from "classnames";
 import { useRecoilState } from "recoil";
 import { Operation, operationInProgress } from "../recoil/operation";
@@ -10,6 +10,7 @@ type Options = Array<{
   key: Operation;
 }>;
 const options: Options = [
+  { icon: <SelectOutlined />, text: "Select", key: "Select" },
   { icon: <PlusOutlined />, text: "Add new", key: "Add" },
 ];
 
