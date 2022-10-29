@@ -7,8 +7,7 @@
   display: none;
 }
 
-.EditorMenu:hover .menuItemText,
-.EditorMenuExpanded .menuItemText {
+.EditorMenu:hover .menuItemText {
   display: initial;
   padding-right: 20px;
 }
