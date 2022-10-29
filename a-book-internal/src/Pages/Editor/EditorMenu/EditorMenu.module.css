@@ -1,6 +1,7 @@
 .EditorMenu {
   background-color: var(--primary-background-color);
   color: #fff;
+  z-index: 1; /* it has to be higher than the EditorCanvas so the preview is not above it */
 }
 
 .EditorMenu .menuItemText {
