@@ -6,7 +6,19 @@ const AddSidePanel = () => {
     <div className={styles.AddSidePanel}>
       <ItemSelector
         itemGroups={[
-          { items: [{ content: <div>123</div>, key: "123" }], label: "Tables" },
+          {
+            items: [
+              { content: <div>123</div>, key: "123" },
+              { content: <div>222</div>, key: "222" },
+            ],
+            label: "Tables",
+            key: "Tables",
+          },
+          {
+            label: "Decoration",
+            key: "Decoration",
+            items: [{ content: <div>333</div>, key: "333" }],
+          },
         ]}
       />
     </div>

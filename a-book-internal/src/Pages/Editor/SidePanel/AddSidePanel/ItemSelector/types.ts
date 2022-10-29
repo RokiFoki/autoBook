@@ -1,15 +1,17 @@
 
 export type ItemSelectorProps = {
-    itemGroups: ItemGroup[]
+    itemGroups: ItemGroup[];
 }
 
 export type ItemGroup = {
-    key?: string;
-} & ItemGroupProps
+    key: string;
+} & Pick<ItemGroupProps, 'items' | 'label'>
 
 export type ItemGroupProps = {
     label: string;
-    items: Item[]
+    items: Item[];
+    expanded: boolean;
+    onToggle: () => unknown
 }
 
 export type Item = {
