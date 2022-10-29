@@ -1,7 +1,7 @@
 
 export type ItemSelectorProps<ITEM_KEY extends string, GROUP_KEY extends string> = {
     itemGroups: ItemGroup<ITEM_KEY, GROUP_KEY>[];
-    onItemSelect: (itemKey: ITEM_KEY) => unknown;
+    onItemSelect: (itemKey: ITEM_KEY | null) => unknown;
     selected: ITEM_KEY | null;
 }
 
@@ -14,7 +14,7 @@ export type ItemGroupProps<ITEM_KEY extends string> = {
     items: Item<ITEM_KEY>[];
     expanded: boolean;
     selected: ITEM_KEY | null,
-    onItemSelect: (item: ITEM_KEY) => unknown
+    onItemSelect: (item: ITEM_KEY | null) => unknown
     onToggle: () => unknown
 }
 
@@ -25,5 +25,5 @@ export type Item<ITEM_KEY extends string> = {
 
 export type ItemProps<ITEM_KEY extends string> = Item<ITEM_KEY> & {
     selected: boolean,
-    onSelect: () => unknown
+    onClick: () => unknown
 }

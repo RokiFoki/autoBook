@@ -6,7 +6,6 @@ import ItemSelector from "./ItemSelector/ItemSelector";
 
 const AddSidePanel = () => {
   const [selectedItem, setSelecteditem] = useRecoilState(selectedAddItem);
-  console.log(selectedItem);
 
   return (
     <div className={styles.AddSidePanel}>

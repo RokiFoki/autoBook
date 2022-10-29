@@ -25,7 +25,11 @@ const ItemGroup = <ITEM_KEY extends string>({
           <Item
             {...item}
             selected={item.key === selected}
-            onSelect={() => onItemSelect(item.key)}
+            onClick={() =>
+              item.key === selected
+                ? onItemSelect(null)
+                : onItemSelect(item.key)
+            }
           />
         ))}
       </div>

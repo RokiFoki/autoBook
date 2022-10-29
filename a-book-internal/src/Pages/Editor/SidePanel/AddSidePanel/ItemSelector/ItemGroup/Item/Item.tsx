@@ -5,7 +5,7 @@ import styles from "./Item.module.css";
 const Item = <ITEM_KEY extends string>({
   content,
   selected,
-  onSelect,
+  onClick: onSelect,
 }: ItemProps<ITEM_KEY>) => {
   return (
     <div
