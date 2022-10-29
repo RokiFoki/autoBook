@@ -1,25 +1,23 @@
 
-export type ItemSelectorProps = {
-    itemGroups: ItemGroup[];
+export type ItemSelectorProps<ITEM_KEY extends string, GROUP_KEY extends string> = {
+    itemGroups: ItemGroup<ITEM_KEY, GROUP_KEY>[];
+    onItemSelect: (itemKey: ITEM_KEY) => unknown;
 }
 
-export type ItemGroup = {
-    key: string;
-} & Pick<ItemGroupProps, 'items' | 'label'>
+export type ItemGroup<ITEM_KEY extends string, GROUP_KEY extends string> = {
+    key: GROUP_KEY;
+} & Pick<ItemGroupProps<ITEM_KEY>, 'items' | 'label'>
 
-export type ItemGroupProps = {
+export type ItemGroupProps<ITEM_KEY extends string> = {
     label: string;
-    items: Item[];
+    items: Item<ITEM_KEY>[];
     expanded: boolean;
     onToggle: () => unknown
 }
 
-export type Item = {
+export type Item<ITEM_KEY extends string> = {
     content: React.ReactElement,
-    key: string;
+    key: ITEM_KEY;
 }
 
-export type ItemProps = {
-    content: React.ReactElement,
-    key: string;
-}
+export type ItemProps<ITEM_KEY extends string> = Item<ITEM_KEY>

@@ -3,7 +3,12 @@ import { ItemGroupProps } from "../types";
 import Item from "./Item/Item";
 import styles from "./ItemGroup.module.css";
 
-const ItemGroup = ({ label, items, expanded, onToggle }: ItemGroupProps) => {
+const ItemGroup = <ITEM_KEY extends string>({
+  label,
+  items,
+  expanded,
+  onToggle,
+}: ItemGroupProps<ITEM_KEY>) => {
   return (
     <article
       className={classNames(styles.ItemGroup, {

@@ -1,16 +1,16 @@
 import ItemGroup from "./ItemGroup/ItemGroup";
 import { ItemSelectorProps } from "./types";
 import usePersistentState from "utils/hooks/usePersistentState";
-import { useEffect } from "react";
 
-type ItemGroupKey = ItemSelectorProps["itemGroups"][number]["key"];
-const ItemSelector = ({ itemGroups }: ItemSelectorProps) => {
-  const [expanded, setExpanded] = usePersistentState<Array<ItemGroupKey>>(
+const ItemSelector = <ITEM_KEY extends string, GROUP_KEY extends string>({
+  itemGroups,
+}: ItemSelectorProps<ITEM_KEY, GROUP_KEY>) => {
+  const [expanded, setExpanded] = usePersistentState<Array<GROUP_KEY>>(
     [],
     "AddSidePanel/ItemSelector/Expanded"
   );
 
-  const onItemGroupToggle = (key: ItemGroupKey) => {
+  const onItemGroupToggle = (key: GROUP_KEY) => {
     if (expanded.includes(key)) {
       setExpanded(expanded.filter((eKey) => eKey !== key));
     } else {
