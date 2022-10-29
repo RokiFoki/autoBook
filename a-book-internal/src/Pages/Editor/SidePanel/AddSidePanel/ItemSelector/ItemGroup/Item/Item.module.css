@@ -1,0 +1,9 @@
+.Item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.Item:hover {
+  background-color: var(--primary-background-color-light-hover);
+}

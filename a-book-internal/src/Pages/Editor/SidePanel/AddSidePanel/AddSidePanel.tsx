@@ -1,3 +1,4 @@
+import Table from "../../Elements/Tables/Table";
 import styles from "./AddSidePanel.module.css";
 import ItemSelector from "./ItemSelector/ItemSelector";
 
@@ -8,8 +9,16 @@ const AddSidePanel = () => {
         itemGroups={[
           {
             items: [
-              { content: <div>123</div>, key: "123" },
-              { content: <div>222</div>, key: "222" },
+              { content: <Table type="RoundedTable2" />, key: "RoundedTable2" },
+              { content: <Table type="RoundedTable4" />, key: "RoundedTable4" },
+              {
+                content: <Table type="CorneredTable2" />,
+                key: "CorneredTable2",
+              },
+              {
+                content: <Table type="CorneredTable4" />,
+                key: "CorneredTable4",
+              },
             ],
             label: "Tables",
             key: "Tables",
@@ -18,6 +27,12 @@ const AddSidePanel = () => {
             label: "Decoration",
             key: "Decoration",
             items: [{ content: <div>333</div>, key: "333" }],
+          },
+
+          {
+            label: "Saved",
+            key: "Saved",
+            items: [{ content: <div>444</div>, key: "444" }],
           },
         ]}
       />

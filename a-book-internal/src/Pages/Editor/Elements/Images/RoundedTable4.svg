@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 246 246" xmlns="http://www.w3.org/2000/svg">
+  <rect x="183.269" y="85.719" width="62.19" height="70.996" style="fill: rgb(153, 115, 0);"/>
+  <rect x="223.72" y="85.719" width="21.739" height="70.996" style="fill: rgb(92, 69, 0);"/>
+  <rect x="0.275" y="84.343" width="62.19" height="70.996" style="fill: rgb(153, 115, 0);"/>
+  <rect x="0.275" y="84.343" width="21.739" height="70.996" style="fill: rgb(92, 69, 0);"/>
+  <rect x="86.406" y="175.152" width="62.19" height="70.996" style="fill: rgb(153, 115, 0);" transform="matrix(0, 1, -1, 0, 334.75528, 97.27668)"/>
+  <rect x="126.857" y="175.152" width="21.739" height="70.996" style="fill: rgb(92, 69, 0);" transform="matrix(0, 1, -1, 0, 334.75528, 97.27668)"/>
+  <rect x="-153.549" y="-66.731" width="62.19" height="70.996" style="fill: rgb(153, 115, 0);" transform="matrix(0, -1, 1, 0, 154.237335, -91.496185)"/>
+  <rect x="-113.098" y="-66.731" width="21.739" height="70.996" style="fill: rgb(92, 69, 0);" transform="matrix(0, -1, 1, 0, 154.237335, -91.496185)"/>
+  <circle style="fill: rgb(204, 153, 0);" cx="123.28" cy="123.419" r="85"/>
+</svg>

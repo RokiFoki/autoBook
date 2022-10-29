@@ -22,10 +22,17 @@
 }
 
 .groupContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: stretch;
+  justify-content: space-evenly;
   padding-left: var(--left-padding);
   display: none;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .expanded .groupContent {
-  display: initial;
+  display: flex;
 }
