@@ -1,5 +1,4 @@
-import classNames from "classnames";
-import layoutStyles from "../Shared/layout.module.css";
+import DetailsPanel from "./DetailsPanel/DetailsPanel";
 import styles from "./Editor.module.css";
 import EditorCanvas from "./EditorCanvas/EditorCanvas";
 import EditorMenu from "./EditorMenu/EditorMenu";
@@ -13,7 +12,7 @@ const Editor = () => {
         <SidePanel />
         <EditorCanvas />
       </section>
-      <aside>right</aside>
+      <DetailsPanel />
     </main>
   );
 };

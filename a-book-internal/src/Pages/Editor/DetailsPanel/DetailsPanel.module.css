@@ -1,0 +1,5 @@
+.DetailsPanel {
+  min-width: 200px;
+  background-color: var(--primary-background-color-light);
+  color: white;
+}
