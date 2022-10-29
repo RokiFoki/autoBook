@@ -1,6 +1,6 @@
 .AddSidePanel {
   background-color: var(--primary-background-color-light);
   color: white;
-  padding: 14px;
+  padding: 8px 0;
   width: 180px;
 }

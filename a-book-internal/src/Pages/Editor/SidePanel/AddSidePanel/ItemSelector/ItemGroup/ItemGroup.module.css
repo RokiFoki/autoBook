@@ -1,7 +1,31 @@
+.ItemGroup {
+  --left-padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.groupLabel {
+  cursor: pointer;
+  padding-left: var(--left-padding);
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.groupLabel:hover {
+  border-right: 4px solid var(--primary-background-color);
+  background-color: var(--primary-background-color-light-hover);
+}
+
+.expanded .groupLabel {
+  border-right: 4px solid var(--primary-background-color);
+  background-color: var(--primary-background-color-light-selected);
+}
+
 .groupContent {
+  padding-left: var(--left-padding);
   display: none;
 }
 
-.expanded {
+.expanded .groupContent {
   display: initial;
 }

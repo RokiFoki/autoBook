@@ -5,18 +5,20 @@ import styles from "./ItemGroup.module.css";
 
 const ItemGroup = ({ label, items, expanded, onToggle }: ItemGroupProps) => {
   return (
-    <div>
-      <div onClick={() => onToggle()}>{label}</div>
-      <div
-        className={classNames(styles.groupContent, {
-          [styles.expanded]: expanded,
-        })}
-      >
+    <article
+      className={classNames(styles.ItemGroup, {
+        [styles.expanded]: expanded,
+      })}
+    >
+      <div onClick={() => onToggle()} className={styles.groupLabel}>
+        {label}
+      </div>
+      <div className={classNames(styles.groupContent)}>
         {items.map((item) => (
           <Item {...item} />
         ))}
       </div>
-    </div>
+    </article>
   );
 };
 

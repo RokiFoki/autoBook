@@ -11,7 +11,6 @@ const ItemSelector = ({ itemGroups }: ItemSelectorProps) => {
   );
 
   const onItemGroupToggle = (key: ItemGroupKey) => {
-    console.log("onItemGroupToggle");
     if (expanded.includes(key)) {
       setExpanded(expanded.filter((eKey) => eKey !== key));
     } else {
