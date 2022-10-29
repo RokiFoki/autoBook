@@ -1,11 +1,18 @@
+import { useRecoilState } from "recoil";
 import Table from "../../Elements/Tables/Table";
+import { selectedAddItem } from "../../recoil/selectedAddItem";
 import styles from "./AddSidePanel.module.css";
 import ItemSelector from "./ItemSelector/ItemSelector";
 
 const AddSidePanel = () => {
+  const [selectedItem, setSelecteditem] = useRecoilState(selectedAddItem);
+  console.log(selectedItem);
+
   return (
     <div className={styles.AddSidePanel}>
       <ItemSelector
+        onItemSelect={(itemKey) => setSelecteditem(itemKey)}
+        selected={selectedItem}
         itemGroups={[
           {
             items: [
@@ -26,13 +33,13 @@ const AddSidePanel = () => {
           {
             label: "Decoration",
             key: "Decoration",
-            items: [{ content: <div>333</div>, key: "333" }],
+            items: [{ content: <div>333</div>, key: "CorneredTable4" }],
           },
 
           {
             label: "Saved",
             key: "Saved",
-            items: [{ content: <div>444</div>, key: "444" }],
+            items: [{ content: <div>444</div>, key: "CorneredTable4" }],
           },
         ]}
       />

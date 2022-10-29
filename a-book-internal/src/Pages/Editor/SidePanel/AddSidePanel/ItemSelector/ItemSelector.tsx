@@ -4,6 +4,8 @@ import usePersistentState from "utils/hooks/usePersistentState";
 
 const ItemSelector = <ITEM_KEY extends string, GROUP_KEY extends string>({
   itemGroups,
+  selected,
+  onItemSelect,
 }: ItemSelectorProps<ITEM_KEY, GROUP_KEY>) => {
   const [expanded, setExpanded] = usePersistentState<Array<GROUP_KEY>>(
     [],
@@ -23,6 +25,8 @@ const ItemSelector = <ITEM_KEY extends string, GROUP_KEY extends string>({
       {itemGroups.map((itemGroup) => (
         <ItemGroup
           {...itemGroup}
+          onItemSelect={onItemSelect}
+          selected={selected}
           expanded={expanded.includes(itemGroup.key)}
           onToggle={() => onItemGroupToggle(itemGroup.key)}
         />

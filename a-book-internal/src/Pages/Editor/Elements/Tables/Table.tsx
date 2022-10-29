@@ -3,7 +3,7 @@ import CorneredTable2 from "./CorneredTable2";
 import RoundedTable2 from "./RoundedTable2";
 import RoundedTable4 from "./RoundedTable4";
 
-type TableType =
+export type TableType =
   | "RoundedTable2"
   | "RoundedTable4"
   | "CorneredTable2"

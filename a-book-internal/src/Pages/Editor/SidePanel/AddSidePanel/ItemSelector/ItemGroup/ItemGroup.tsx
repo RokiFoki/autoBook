@@ -7,7 +7,9 @@ const ItemGroup = <ITEM_KEY extends string>({
   label,
   items,
   expanded,
+  selected,
   onToggle,
+  onItemSelect,
 }: ItemGroupProps<ITEM_KEY>) => {
   return (
     <article
@@ -20,7 +22,11 @@ const ItemGroup = <ITEM_KEY extends string>({
       </div>
       <div className={classNames(styles.groupContent)}>
         {items.map((item) => (
-          <Item {...item} />
+          <Item
+            {...item}
+            selected={item.key === selected}
+            onSelect={() => onItemSelect(item.key)}
+          />
         ))}
       </div>
     </article>

@@ -2,8 +2,13 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 4px;
 }
 
 .Item:hover {
   background-color: var(--primary-background-color-light-hover);
+}
+
+.Item.selected {
+  background-color: var(--primary-background-color-light-selected);
 }
