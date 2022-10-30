@@ -7,6 +7,10 @@
   font-size: 12px;
 }
 
+.TableForm input {
+  font-size: 12px;
+}
+
 .basicForm {
   display: grid;
   gap: 4px;

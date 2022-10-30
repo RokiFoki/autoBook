@@ -2,10 +2,12 @@ import { atom } from 'recoil';
 import type { AddItemType } from '../selectedAddItemType';
 
 export type ItemData = {
-  key: string;
+  id: number;
+  name: string;
   itemType: Exclude<AddItemType, null>;
   x: number;
   y: number;
+  rotation: number;
 };
 
 export const canvasItems = atom<ItemData[]>({

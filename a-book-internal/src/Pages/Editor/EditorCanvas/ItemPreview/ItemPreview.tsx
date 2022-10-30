@@ -62,10 +62,12 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
 
     setCnt({ cnt: cnt.cnt + 1 });
     onAddItem({
-      key: `Table${cnt.cnt}`,
+      id: cnt.cnt,
+      name: `Table${cnt.cnt}`,
       itemType: item,
       x: x - rootX - width / 2,
       y: y - rootY - height / 2,
+      rotation: 0,
     });
   };
 

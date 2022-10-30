@@ -3,8 +3,29 @@ import classNames from "classnames";
 import styles from "./TableForm.module.css";
 import layoutStyles from "../../../../Shared/layout.module.css";
 import Title from "antd/lib/typography/Title";
+import { ItemData } from "../../../recoil/canvas/canvasItems";
+import useUpdateTableItem from "./hooks/useUpdateTableItem";
+import useNumToString from "../../../../../utils/hooks/useNumToString";
 
-const TableForm = () => {
+type TableFormProps = {
+  data: ItemData;
+};
+const TableForm = ({ data }: TableFormProps) => {
+  const updateTableItem = useUpdateTableItem();
+
+  const handleChange = <T extends keyof ItemData>(
+    key: T,
+    value: ItemData[T]
+  ) => {
+    updateTableItem({ ...data, [key]: value });
+  };
+
+  const [x, setX] = useNumToString(data.x, (num) => handleChange("x", num));
+  const [y, setY] = useNumToString(data.y, (num) => handleChange("y", num));
+  const [rotation, setRotation] = useNumToString(data.rotation, (num) =>
+    handleChange("rotation", num)
+  );
+
   return (
     <article
       className={classNames(styles.TableForm, layoutStyles.layoutPadding)}
@@ -12,10 +33,16 @@ const TableForm = () => {
       <Title level={5}>Table Properties</Title>
       <form name="table-details-form" className={classNames(styles.basicForm)}>
         <label htmlFor="id">ID:</label>
-        <Input size="small" id="id" disabled />
+        <Input size="small" id="id" name="id" disabled value={data?.id} />
 
         <label htmlFor="name">Name:</label>
-        <Input size="small" id="name" />
+        <Input
+          size="small"
+          id="name"
+          name="name"
+          value={data?.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+        />
       </form>
 
       <Divider className={styles.divider} />
@@ -26,16 +53,34 @@ const TableForm = () => {
         className={classNames(styles.advancedForm)}
       >
         <label htmlFor="x">x:</label>
-        <Input size="small" id="x" />
+        <Input
+          size="small"
+          id="x"
+          name="x"
+          type="number"
+          value={x}
+          onChange={(e) => setX(e.target.value)}
+        />
 
         <label htmlFor="y">y:</label>
-        <Input size="small" id="y" />
+        <Input
+          size="small"
+          id="y"
+          name="y"
+          value={y}
+          type="number"
+          onChange={(e) => setY(e.target.value)}
+        />
 
-        <label htmlFor="rotation">rotation:</label>
-        <Input size="small" id="rotation" />
-
-        <label htmlFor="scale">scale:</label>
-        <Input size="small" id="scale" />
+        <label htmlFor="rotation">Rotation:</label>
+        <Input
+          size="small"
+          id="rotation"
+          name="rotation"
+          type="number"
+          value={rotation}
+          onChange={(e) => setRotation(e.target.value)}
+        />
       </form>
     </article>
   );

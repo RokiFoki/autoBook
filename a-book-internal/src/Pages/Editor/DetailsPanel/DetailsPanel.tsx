@@ -1,34 +1,34 @@
-import { useRecoilState } from "recoil";
-import {
-  AddItemType,
-  selectedAddItemType,
-} from "../recoil/selectedAddItemType";
+import { useRecoilValue } from "recoil";
+import type { ItemData } from "../recoil/canvas/canvasItems";
+
 import styles from "./DetailsPanel.module.css";
 import TableForm from "./Forms/TableForm/TableForm";
+import getDetailsData from "./recoil/getDetailsData";
 
 const DetailsPanel = () => {
-  const [selectedItemType] = useRecoilState(selectedAddItemType);
-  if (DetailsPanelContent({ type: selectedItemType }) == null) return null;
+  const selecteditem = useRecoilValue(getDetailsData);
+  if (DetailsPanelContent({ itemData: selecteditem }) == null) return null;
 
   return (
     <aside className={styles.DetailsPanel}>
-      <DetailsPanelContent type={selectedItemType} />
+      <DetailsPanelContent itemData={selecteditem} />
     </aside>
   );
 };
 
-type Props = { type: AddItemType };
-const DetailsPanelContent = ({ type }: Props) => {
-  switch (type) {
+type Props = { itemData?: ItemData };
+const DetailsPanelContent = ({ itemData }: Props) => {
+  if (itemData == null) return null;
+  switch (itemData.itemType) {
     case "CorneredTable2":
     case "CorneredTable4":
     case "RoundedTable2":
     case "RoundedTable4":
-      return <TableForm />;
+      return <TableForm data={itemData} />;
     case null:
       return null;
     default: {
-      const _exhaustiveCheck: never = type;
+      const _exhaustiveCheck: never = itemData.itemType;
       return null;
     }
   }

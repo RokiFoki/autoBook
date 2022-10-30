@@ -13,21 +13,26 @@ type CanvasItemsProps = {
 const CanvasItems = ({ items }: CanvasItemsProps) => {
   const [operation] = useRecoilState(operationInProgress);
   const [selectedItems, setSelecteditems] = useRecoilState(selectedCanvasItems);
-  const selectItem = (key: ItemData["key"]) => {
+  const selectItem = (id: ItemData["id"]) => {
     if (operation === "Select") {
-      setSelecteditems([key]);
+      setSelecteditems([id]);
     }
   };
 
   return (
     <>
-      {items.map(({ x, y, itemType, key }) => (
+      {items.map(({ x, y, itemType, id, rotation }) => (
         <div
-          key={key}
-          style={{ position: "absolute", top: y, left: x }}
-          onClick={() => selectItem(key)}
+          key={id}
+          style={{
+            position: "absolute",
+            top: y,
+            left: x,
+            transform: `rotate(${rotation}deg)`,
+          }}
+          onClick={() => selectItem(id)}
           className={classNames(styles.item, {
-            [styles.selectedItem]: selectedItems.includes(key),
+            [styles.selectedItem]: selectedItems.includes(id),
           })}
         >
           <Table type={itemType} />
