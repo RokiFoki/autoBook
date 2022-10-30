@@ -1,9 +1,9 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { operationInProgress } from "../recoil/operation";
 import AddSidePanel from "./AddSidePanel/AddSidePanel";
 
 const SidePanel = () => {
-  const [operation] = useRecoilState(operationInProgress);
+  const operation = useRecoilValue(operationInProgress);
 
   switch (operation) {
     case "Add":

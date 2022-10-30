@@ -1,5 +1,5 @@
 import { MouseEventHandler, useEffect, useRef } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import useEvent from "../../../../utils/hooks/useEvent";
 import usePersistentState from "../../../../utils/hooks/usePersistentState";
 import Table from "../../Elements/Tables/Table";
@@ -50,7 +50,7 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
     { cnt: 1 },
     "Editor/ItemPreview/cnt"
   );
-  const [item] = useRecoilState(selectedAddItemType);
+  const item = useRecoilValue(selectedAddItemType);
 
   const tableRef = useRef<HTMLDivElement>(null);
   useTablePreview(rootRef, show, tableRef);
