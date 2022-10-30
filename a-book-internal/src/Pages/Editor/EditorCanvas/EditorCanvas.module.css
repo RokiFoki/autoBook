@@ -15,12 +15,3 @@
 .editorCanvasContent.Select {
   cursor: crosshair;
 }
-
-.item * {
-  box-sizing: content-box;
-}
-
-.selectedItem > div {
-  transform: translate(-2px, -2px);
-  border: 2px solid lightblue;
-}
