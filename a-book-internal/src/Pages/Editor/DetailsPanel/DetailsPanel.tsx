@@ -1,30 +1,34 @@
 import { useRecoilState } from "recoil";
-import { AddItemType, selectedAddItem } from "../recoil/selectedAddItem";
+import {
+  AddItemType,
+  selectedAddItemType,
+} from "../recoil/selectedAddItemType";
 import styles from "./DetailsPanel.module.css";
+import TableForm from "./Forms/TableForm/TableForm";
 
 const DetailsPanel = () => {
-  const [selectedItem] = useRecoilState(selectedAddItem);
-  if (DetailsPanelContent({ item: selectedItem }) == null) return null;
+  const [selectedItemType] = useRecoilState(selectedAddItemType);
+  if (DetailsPanelContent({ type: selectedItemType }) == null) return null;
 
   return (
     <aside className={styles.DetailsPanel}>
-      <DetailsPanelContent item={selectedItem} />
+      <DetailsPanelContent type={selectedItemType} />
     </aside>
   );
 };
 
-type Props = { item: AddItemType };
-const DetailsPanelContent = ({ item }: Props) => {
-  switch (item) {
+type Props = { type: AddItemType };
+const DetailsPanelContent = ({ type }: Props) => {
+  switch (type) {
     case "CorneredTable2":
     case "CorneredTable4":
     case "RoundedTable2":
     case "RoundedTable4":
-      return <div></div>;
+      return <TableForm />;
     case null:
       return null;
     default: {
-      const _exhaustiveCheck: never = item;
+      const _exhaustiveCheck: never = type;
       return null;
     }
   }

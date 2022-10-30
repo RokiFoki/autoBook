@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import type { AddItemType } from '../selectedAddItem';
+import type { AddItemType } from '../selectedAddItemType';
 
 export type ItemData = {
   key: string;

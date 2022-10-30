@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { canvasItems } from "../recoil/canvas/canvasItems";
 import { operationInProgress } from "../recoil/operation";
-import { AddItemType } from "../recoil/selectedAddItem";
 import CanvasItems from "./CanvasItems/CanvasItems";
 import styles from "./EditorCanvas.module.css";
 import ItemPreview from "./ItemPreview/ItemPreview";

@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import useEvent from "../../../../utils/hooks/useEvent";
 import usePersistentState from "../../../../utils/hooks/usePersistentState";
 import Table from "../../Elements/Tables/Table";
-import { selectedAddItem } from "../../recoil/selectedAddItem";
+import { selectedAddItemType } from "../../recoil/selectedAddItemType";
 import { ItemData } from "../../recoil/canvas/canvasItems";
 import styles from "./ItemPreview.module.css";
 
@@ -50,7 +50,7 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
     { cnt: 1 },
     "Editor/ItemPreview/cnt"
   );
-  const [item] = useRecoilState(selectedAddItem);
+  const [item] = useRecoilState(selectedAddItemType);
 
   const tableRef = useRef<HTMLDivElement>(null);
   useTablePreview(rootRef, show, tableRef);

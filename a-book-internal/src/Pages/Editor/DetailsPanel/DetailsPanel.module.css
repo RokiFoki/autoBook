@@ -1,6 +1,15 @@
 .DetailsPanel {
-  min-width: 200px;
+  width: 220px;
   background-color: var(--primary-background-color-light);
   color: white;
   z-index: 1; /* it has to be higher than the EditorCanvas so the preview is not above it */
+}
+
+.DetailsPanel label,
+.DetailsPanel h1,
+.DetailsPanel h2,
+.DetailsPanel h3,
+.DetailsPanel h4,
+.DetailsPanel h5 {
+  color: white;
 }

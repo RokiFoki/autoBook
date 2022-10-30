@@ -1,17 +1,18 @@
 import { useRecoilState } from "recoil";
 import Table from "../../Elements/Tables/Table";
-import { selectedAddItem } from "../../recoil/selectedAddItem";
+import { selectedAddItemType } from "../../recoil/selectedAddItemType";
 import styles from "./AddSidePanel.module.css";
 import ItemSelector from "./ItemSelector/ItemSelector";
 
 const AddSidePanel = () => {
-  const [selectedItem, setSelecteditem] = useRecoilState(selectedAddItem);
+  const [selectedItemType, setSelectedItemType] =
+    useRecoilState(selectedAddItemType);
 
   return (
     <div className={styles.AddSidePanel}>
       <ItemSelector
-        onItemSelect={(itemKey) => setSelecteditem(itemKey)}
-        selected={selectedItem}
+        onItemSelect={(itemKey) => setSelectedItemType(itemKey)}
+        selected={selectedItemType}
         itemGroups={[
           {
             items: [
