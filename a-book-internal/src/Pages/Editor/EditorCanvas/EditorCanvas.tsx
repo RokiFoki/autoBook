@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { canvasItems } from "../recoil/canvas/canvasItems";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { canvasItems, ItemData } from "../recoil/canvas/canvasItems";
+import { selectedCanvasItems } from "../recoil/canvas/selectedCanvasItems";
 import { operationInProgress } from "../recoil/operation";
 import CanvasItems from "./CanvasItems/CanvasItems";
 import styles from "./EditorCanvas.module.css";
@@ -38,8 +39,13 @@ const useMouseOn = <T extends HTMLElement>() => {
 const EditorCanvas = () => {
   const operation = useRecoilValue(operationInProgress);
   const [items, setItems] = useRecoilState(canvasItems);
+  const setSelectedItems = useSetRecoilState(selectedCanvasItems);
 
   const { elementRef, isMouseOver } = useMouseOn();
+  const addItem = (item: ItemData) => {
+    setItems([...items, item]);
+    setSelectedItems([item.id]);
+  };
 
   return (
     <article className={styles.EditorCanvas} ref={elementRef}>
@@ -52,7 +58,7 @@ const EditorCanvas = () => {
         <CanvasItems items={items} />
 
         <ItemPreview
-          onAddItem={(item) => setItems([...items, item])}
+          onAddItem={addItem}
           rootRef={elementRef}
           show={isMouseOver && operation === "Add"}
         />
