@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import { canvasItems } from "../recoil/canvas/canvasItems";
 import { operationInProgress } from "../recoil/operation";
 import { AddItemType } from "../recoil/selectedAddItem";
 import CanvasItems from "./CanvasItems/CanvasItems";
@@ -35,17 +36,11 @@ const useMouseOn = <T extends HTMLElement>() => {
   return { elementRef, isMouseOver };
 };
 
-export type ItemData = {
-  key: string;
-  itemType: Exclude<AddItemType, null>;
-  x: number;
-  y: number;
-};
 const EditorCanvas = () => {
   const [operation] = useRecoilState(operationInProgress);
-  const { elementRef, isMouseOver } = useMouseOn();
+  const [items, setItems] = useRecoilState(canvasItems);
 
-  const [items, setItems] = useState<ItemData[]>([]);
+  const { elementRef, isMouseOver } = useMouseOn();
 
   return (
     <article className={styles.EditorCanvas} ref={elementRef}>

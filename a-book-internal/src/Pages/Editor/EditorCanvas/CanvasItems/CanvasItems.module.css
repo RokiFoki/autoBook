@@ -1,8 +1,3 @@
-.item * {
-  box-sizing: content-box;
-}
-
-.selectedItem > div {
-  transform: translate(-2px, -2px);
-  border: 2px solid lightblue;
+.selectedItem {
+  box-shadow: 0 0 1px 2px lightblue;
 }

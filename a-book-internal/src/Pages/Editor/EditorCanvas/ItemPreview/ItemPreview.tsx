@@ -4,7 +4,7 @@ import useEvent from "../../../../utils/hooks/useEvent";
 import usePersistentState from "../../../../utils/hooks/usePersistentState";
 import Table from "../../Elements/Tables/Table";
 import { selectedAddItem } from "../../recoil/selectedAddItem";
-import { ItemData } from "../EditorCanvas";
+import { ItemData } from "../../recoil/canvas/canvasItems";
 import styles from "./ItemPreview.module.css";
 
 const useTablePreview = (

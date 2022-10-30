@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { useState } from "react";
 import { useRecoilState } from "recoil";
 import Table from "../../Elements/Tables/Table";
 import { operationInProgress } from "../../recoil/operation";
-import { ItemData } from "../EditorCanvas";
+import { ItemData } from "../../recoil/canvas/canvasItems";
 import styles from "./CanvasItems.module.css";
+import { selectedCanvasItems } from "../../recoil/canvas/selectedCanvasItems";
 
 type CanvasItemsProps = {
   items: ItemData[];
@@ -12,7 +12,7 @@ type CanvasItemsProps = {
 
 const CanvasItems = ({ items }: CanvasItemsProps) => {
   const [operation] = useRecoilState(operationInProgress);
-  const [selectedItems, setSelecteditems] = useState<ItemData["key"][]>([]);
+  const [selectedItems, setSelecteditems] = useRecoilState(selectedCanvasItems);
   const selectItem = (key: ItemData["key"]) => {
     if (operation === "Select") {
       setSelecteditems([key]);
@@ -23,6 +23,7 @@ const CanvasItems = ({ items }: CanvasItemsProps) => {
     <>
       {items.map(({ x, y, itemType, key }) => (
         <div
+          key={key}
           style={{ position: "absolute", top: y, left: x }}
           onClick={() => selectItem(key)}
           className={classNames(styles.item, {
