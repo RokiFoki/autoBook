@@ -47,6 +47,10 @@ const EditorCanvas = () => {
     setSelectedItems([item.id]);
   };
 
+  const onDragOver = (ev: React.DragEvent<HTMLDivElement>) => {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "move";
+  };
   return (
     <article className={styles.EditorCanvas} ref={elementRef}>
       <div
@@ -54,6 +58,8 @@ const EditorCanvas = () => {
           styles.editorCanvasContent,
           operation && styles[operation]
         )}
+        onDragOver={onDragOver}
+        onDrop={() => null}
       >
         <CanvasItems items={items} />
 

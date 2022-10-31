@@ -12,11 +12,12 @@ export type TableType =
 type TableProps = {
   type: TableType;
   width?: number;
+  className?: string;
 };
 
-const Table = ({ type, width = 72 }: TableProps) => {
+const Table = ({ type, width = 72, className }: TableProps) => {
   return (
-    <div style={{ width }}>
+    <div style={{ width }} className={className}>
       <TableImage type={type} />
     </div>
   );
