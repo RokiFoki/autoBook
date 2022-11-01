@@ -36,24 +36,24 @@ const CanvasItems = ({ items }: CanvasItemsProps) => {
         const { x, y, itemType, id, rotation } = item;
         const isSelected = selectedItems.includes(id);
         return (
-          <div
-            key={id}
-            style={{
-              position: "absolute",
-              top: y,
-              left: x,
-              transform: `rotate(${rotation}deg)`,
-            }}
-            onClick={() => selectItem(id)}
-            className={classNames(styles.item, {
-              [styles.selectedItem]: isSelected,
-              [styles.selectable]: !isSelected && operation === "Select",
-            })}
-          >
-            <Draggable enable key={id} onDrag={updateItemPosition(item)}>
+          <Draggable enable key={id} onDrag={updateItemPosition(item)}>
+            <div
+              key={id}
+              style={{
+                position: "absolute",
+                top: y,
+                left: x,
+                transform: `rotate(${rotation}deg)`,
+              }}
+              onClick={() => selectItem(id)}
+              className={classNames(styles.item, {
+                [styles.selectedItem]: isSelected,
+                [styles.selectable]: !isSelected && operation === "Select",
+              })}
+            >
               <Table type={itemType} />
-            </Draggable>
-          </div>
+            </div>
+          </Draggable>
         );
       })}
     </>

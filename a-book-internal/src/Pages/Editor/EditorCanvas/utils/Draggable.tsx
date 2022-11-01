@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import useEvent from "../../../../utils/hooks/useEvent";
+import styles from "./Draggable.module.css";
 
 type Position = { x: number; y: number };
 export type DraggOffset = Position;
@@ -21,18 +22,28 @@ const Draggable = ({
     if (ref.current && enable) {
       const target = ref.current;
 
-      const X = "clientX";
-      const Y = "clientY";
       const onDragStart = (e: DragEvent) => {
-        startPositionRef.current = { x: e[X], y: e[Y] };
+        if (e.dataTransfer && ref.current) {
+          const duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
+          const firstChild = ref.current.firstChild as HTMLDivElement;
+          const rect = firstChild.getBoundingClientRect();
+          duplicatedDiv.classList.add(styles.draggableIcon);
+          document.body.appendChild(duplicatedDiv);
+
+          e.dataTransfer.setDragImage(duplicatedDiv, rect.width, rect.height);
+          startPositionRef.current = {
+            x: rect.x + rect.width / 2,
+            y: rect.y + rect.height / 2,
+          };
+        }
       };
 
       const onDragEnd = (e: DragEvent) => {
         if (!startPositionRef.current) return;
 
         onDrag({
-          x: e[X] - startPositionRef.current.x,
-          y: e[Y] - startPositionRef.current.y,
+          x: e.clientX - startPositionRef.current.x,
+          y: e.clientY - startPositionRef.current.y,
         });
       };
 
