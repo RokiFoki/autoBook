@@ -65,8 +65,8 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
       id: cnt.cnt,
       name: `Table${cnt.cnt}`,
       itemType: item,
-      x: x - rootX - width / 2,
-      y: y - rootY - height / 2,
+      x: Math.round(x - rootX - width / 2),
+      y: Math.round(y - rootY - height / 2),
       rotation: 0,
     });
   };

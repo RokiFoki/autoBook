@@ -27,7 +27,11 @@ const CanvasItems = ({ items }: CanvasItemsProps) => {
   };
 
   const updateItemPosition = (item: ItemData) => (position: DraggOffset) => {
-    updateItem({ ...item, x: item.x + position.x, y: item.y + position.y });
+    updateItem({
+      ...item,
+      x: Math.round(item.x + position.x - 3), // todo: this needs fixing
+      y: Math.round(item.y + position.y - 3),
+    });
   };
 
   return (
