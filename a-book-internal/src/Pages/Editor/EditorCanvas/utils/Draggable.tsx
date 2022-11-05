@@ -54,7 +54,6 @@ const Draggable = ({
 
       target.addEventListener("dragstart", onDragStart);
       target.addEventListener("dragend", onDragEnd);
-
       return () => {
         target.removeEventListener("dragstart", onDragStart);
         target.removeEventListener("dragend", onDragEnd);

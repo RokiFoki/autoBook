@@ -1,0 +1,6 @@
+.SelectionArea {
+  position: absolute;
+  border-width: 2px;
+  border-style: dashed;
+  border-color: #949494;
+}
