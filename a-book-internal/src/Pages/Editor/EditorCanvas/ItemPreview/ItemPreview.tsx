@@ -46,10 +46,7 @@ type ItemPreviewProps = {
   onAddItem: (item: ItemData) => unknown;
 };
 const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
-  const [cnt, setCnt] = usePersistentState(
-    { cnt: 1 },
-    "Editor/ItemPreview/cnt"
-  );
+  const [cnt, setCnt] = usePersistentState<number>(1, "Editor/ItemPreview/cnt");
   const item = useRecoilValue(selectedAddItemType);
 
   const tableRef = useRef<HTMLDivElement>(null);
@@ -60,10 +57,10 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
     const { x, y, width, height } = tableRef.current.getBoundingClientRect();
     const { x: rootX, y: rootY } = rootRef.current.getBoundingClientRect();
 
-    setCnt({ cnt: cnt.cnt + 1 });
+    setCnt(cnt + 1);
     onAddItem({
-      id: cnt.cnt,
-      name: `Table${cnt.cnt}`,
+      id: cnt,
+      name: `Table${cnt}`,
       itemType: item,
       x: Math.round(x - rootX - width / 2),
       y: Math.round(y - rootY - height / 2),

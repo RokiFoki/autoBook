@@ -30,7 +30,11 @@ const Draggable = ({
           duplicatedDiv.classList.add(styles.draggableIcon);
           document.body.appendChild(duplicatedDiv);
 
-          e.dataTransfer.setDragImage(duplicatedDiv, rect.width, rect.height);
+          e.dataTransfer.setDragImage(
+            duplicatedDiv,
+            rect.width / 2,
+            rect.height / 2
+          );
           startPositionRef.current = {
             x: rect.x + rect.width / 2,
             y: rect.y + rect.height / 2,
@@ -42,8 +46,8 @@ const Draggable = ({
         if (!startPositionRef.current) return;
 
         onDrag({
-          x: e.clientX - startPositionRef.current.x,
-          y: e.clientY - startPositionRef.current.y,
+          x: e.x - startPositionRef.current.x,
+          y: e.y - startPositionRef.current.y,
         });
       };
 
