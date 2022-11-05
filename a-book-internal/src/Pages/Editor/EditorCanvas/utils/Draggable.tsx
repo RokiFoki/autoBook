@@ -27,6 +27,7 @@ const Draggable = ({
           const duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
           const firstChild = ref.current.firstChild as HTMLDivElement;
           const rect = firstChild.getBoundingClientRect();
+          (duplicatedDiv.firstChild as HTMLDivElement).className = "";
           duplicatedDiv.classList.add(styles.draggableIcon);
           document.body.appendChild(duplicatedDiv);
 
