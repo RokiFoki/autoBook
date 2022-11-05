@@ -7,7 +7,3 @@
   position: absolute;
   transform: translate(-10000px, -10000px);
 }
-
-.draggableIcon > * {
-  transform: translate(-10px, -50px);
-}

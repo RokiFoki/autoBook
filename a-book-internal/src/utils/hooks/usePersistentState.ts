@@ -3,7 +3,7 @@ import useEvent from './useEvent';
 
 const localStoragePath = 'persistentState/';
 
-const usePersistentState = <T extends object>(defaultState: T, uniqueKey: string) => {
+const usePersistentState = <T extends object | number>(defaultState: T, uniqueKey: string) => {
     const getInitialState = () => {
         const item = localStorage.getItem(localStoragePath + uniqueKey);
 
