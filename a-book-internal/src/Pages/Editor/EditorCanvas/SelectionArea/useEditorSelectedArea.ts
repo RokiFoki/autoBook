@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import useEvent from '../../../../utils/hooks/useEvent';
 import useStateRef from '../../../../utils/hooks/useStateRef';
+import canvasZoom from '../recoil/canvasZoom';
 
 export type Area = {
   startX: number;
@@ -17,6 +19,7 @@ const useEditorSelectedArea = <T extends HTMLElement>(
   const selectedAreaRef = useStateRef(selectedArea);
 
   const onSelect = useEvent(_onSelect);
+  const zoom = useRecoilValue(canvasZoom);
 
   useEffect(() => {
     if (ref.current) {
@@ -24,10 +27,10 @@ const useEditorSelectedArea = <T extends HTMLElement>(
       const onMouseDown = (e: MouseEvent) => {
         const rect = target.getBoundingClientRect();
         setSelectedArea({
-          startX: e.clientX - rect.x,
-          startY: e.clientY - rect.y,
-          endX: e.clientX - rect.x,
-          endY: e.clientY - rect.y,
+          startX: (e.clientX - rect.x) / zoom,
+          startY: (e.clientY - rect.y) / zoom,
+          endX: (e.clientX - rect.x) / zoom,
+          endY: (e.clientY - rect.y) / zoom,
         });
       };
 
@@ -43,8 +46,8 @@ const useEditorSelectedArea = <T extends HTMLElement>(
           const rect = target.getBoundingClientRect();
           setSelectedArea({
             ...selectedAreaRef.current,
-            endX: e.clientX - rect.x,
-            endY: e.clientY - rect.y,
+            endX: (e.clientX - rect.x) / zoom,
+            endY: (e.clientY - rect.y) / zoom,
           });
         }
       };
@@ -58,7 +61,7 @@ const useEditorSelectedArea = <T extends HTMLElement>(
         target.removeEventListener("mousemove", onMouseMove);
       };
     }
-  }, [onSelect, ref, selectedAreaRef]);
+  }, [onSelect, ref, selectedAreaRef, zoom]);
 
   return selectedArea;
 };

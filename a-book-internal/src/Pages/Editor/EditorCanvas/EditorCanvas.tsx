@@ -5,9 +5,11 @@ import { canvasItems, ItemData } from "../recoil/canvas/canvasItems";
 import { selectedCanvasItems } from "../recoil/canvas/selectedCanvasItems";
 import { operationInProgress } from "../recoil/operation";
 import CanvasItems from "./CanvasItems/CanvasItems";
+import FooterControls from "./Controls/FooterControls/FooterControls";
 import styles from "./EditorCanvas.module.css";
 import useMouseOn from "./hooks/useMouseOn";
 import ItemPreview from "./ItemPreview/ItemPreview";
+import canvasZoom from "./recoil/canvasZoom";
 import SelectionArea from "./SelectionArea/SelectionArea";
 import useEditorSelectedArea from "./SelectionArea/useEditorSelectedArea";
 
@@ -31,6 +33,9 @@ const EditorCanvas = () => {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "move";
   };
+
+  const zoom = useRecoilValue(canvasZoom);
+
   return (
     <article className={styles.EditorCanvas} ref={editorRef}>
       <div
@@ -38,6 +43,7 @@ const EditorCanvas = () => {
           styles.editorCanvasContent,
           operation && styles[operation]
         )}
+        style={{ transform: `scale(${zoom})`, transformOrigin: "left top" }}
         onDragOver={onDragOver}
         onDrop={() => null}
       >
@@ -51,6 +57,7 @@ const EditorCanvas = () => {
 
         <SelectionArea area={selectedArea} />
       </div>
+      <FooterControls />
     </article>
   );
 };

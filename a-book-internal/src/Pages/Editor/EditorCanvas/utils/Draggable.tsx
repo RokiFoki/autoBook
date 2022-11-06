@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
+import { useRecoilValue } from "recoil";
 import useEvent from "../../../../utils/hooks/useEvent";
+import canvasZoom from "../recoil/canvasZoom";
 import styles from "./Draggable.module.css";
 
 type Position = { x: number; y: number };
@@ -18,17 +20,25 @@ const Draggable = ({
   const startPositionRef = useRef<Position | null>(null);
   const onDrag = useEvent(_onDrag);
 
+  let zoom = useRecoilValue(canvasZoom);
+
   useEffect(() => {
     if (ref.current && enable) {
       const target = ref.current;
 
+      let duplicatedDiv: HTMLDivElement;
       const onDragStart = (e: DragEvent) => {
         if (e.dataTransfer && ref.current) {
-          const duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
+          duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
           const firstChild = ref.current.firstChild as HTMLDivElement;
           const rect = firstChild.getBoundingClientRect();
           (duplicatedDiv.firstChild as HTMLDivElement).className = "";
           duplicatedDiv.classList.add(styles.draggableIcon);
+          (
+            duplicatedDiv.firstChild as HTMLDivElement
+          ).style.transform = `scale(${zoom})`;
+          (duplicatedDiv.firstChild as HTMLDivElement).style.transformOrigin =
+            "left top";
           document.body.appendChild(duplicatedDiv);
 
           e.dataTransfer.setDragImage(
@@ -47,9 +57,13 @@ const Draggable = ({
         if (!startPositionRef.current) return;
 
         onDrag({
-          x: e.x - startPositionRef.current.x,
-          y: e.y - startPositionRef.current.y,
+          x: (e.x - startPositionRef.current.x) / zoom,
+          y: (e.y - startPositionRef.current.y) / zoom,
         });
+
+        if (duplicatedDiv) {
+          duplicatedDiv.remove();
+        }
       };
 
       target.addEventListener("dragstart", onDragStart);
@@ -59,7 +73,7 @@ const Draggable = ({
         target.removeEventListener("dragend", onDragEnd);
       };
     }
-  }, [ref, enable, onDrag]);
+  }, [ref, enable, onDrag, zoom]);
 
   return (
     <div ref={ref} draggable="true">

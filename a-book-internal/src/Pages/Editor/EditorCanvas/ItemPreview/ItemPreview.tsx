@@ -6,6 +6,7 @@ import Table from "../../Elements/Tables/Table";
 import { selectedAddItemType } from "../../recoil/selectedAddItemType";
 import { ItemData } from "../../recoil/canvas/canvasItems";
 import styles from "./ItemPreview.module.css";
+import canvasZoom from "../recoil/canvasZoom";
 
 const useTablePreview = (
   rootRef: React.RefObject<HTMLElement>,
@@ -13,12 +14,17 @@ const useTablePreview = (
   tableRef: React.RefObject<HTMLDivElement>
 ) => {
   const boundingBoxRef = useRef<DOMRect | undefined>(undefined);
+  const zoom = useRecoilValue(canvasZoom);
 
   const setPreview = useEvent((e: MouseEvent) => {
     if (tableRef.current && boundingBoxRef.current && show) {
       tableRef.current.style.display = "initial";
-      tableRef.current.style.left = `${e.x - boundingBoxRef.current.x}px`;
-      tableRef.current.style.top = `${e.y - boundingBoxRef.current.y}px`;
+      tableRef.current.style.left = `${
+        (e.x - boundingBoxRef.current.x) / zoom
+      }px`;
+      tableRef.current.style.top = `${
+        (e.y - boundingBoxRef.current.y) / zoom
+      }px`;
     }
   });
 
@@ -51,6 +57,7 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
 
   const tableRef = useRef<HTMLDivElement>(null);
   useTablePreview(rootRef, show, tableRef);
+  const zoom = useRecoilValue(canvasZoom);
 
   const addItem: MouseEventHandler = (e) => {
     if (!tableRef.current || !item || !rootRef.current) return;
@@ -62,8 +69,8 @@ const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
       id: cnt,
       name: `Table${cnt}`,
       itemType: item,
-      x: Math.round(x - rootX - width / 2),
-      y: Math.round(y - rootY - height / 2),
+      x: Math.round((x - rootX - width / 2) / zoom),
+      y: Math.round((y - rootY - height / 2) / zoom),
       rotation: 0,
     });
   };

@@ -1,0 +1,9 @@
+.FooterControls {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  height: 20px;
+  width: 100%;
+  display: flex;
+  padding: 8px;
+}
