@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useEvent from '../../../utils/hooks/useEvent';
+import { canvasItems } from '../recoil/canvas/canvasItems';
+import { selectedCanvasItems } from '../recoil/canvas/selectedCanvasItems';
 import { operationInProgress } from '../recoil/operation';
 import { selectedAddItemType } from '../recoil/selectedAddItemType';
 
-const useHandleKeys = () => {
+const useHandleKeys = (isEditorFocused: boolean) => {
   const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItemTypeToAdd, setSelecteditemTypeToadd] = useRecoilState(selectedAddItemType)
+  const selectedItems = useRecoilValue(selectedCanvasItems);
+  const setItems = useSetRecoilState(canvasItems);
 
   const handleEscape = useEvent(() => {
     if (operation === 'Add') {
@@ -26,16 +30,27 @@ const useHandleKeys = () => {
 
   })
 
+  const handleDelete = useEvent(() => {
+    if (isEditorFocused) {
+      setItems(items => items.filter(item => !selectedItems.includes(item.id)))
+    }
+  });
+
   useEffect(() => {
     const target = window;
     if (target) {
 
       const onKeyDown = (ev: KeyboardEvent) => {
+        console.log(ev.key)
         if (ev.key === 'Escape') return handleEscape();
         if (ev.key === 'z' && ev.ctrlKey) return handleUndo();
         if (
           (ev.key === 'Z' && ev.ctrlKey) ||
           (ev.key === 'y' && ev.ctrlKey)) return handleRedo();
+        if (ev.key === 'Delete') {
+          // todo: test MacOS
+          return handleDelete()
+        }
       }
 
       target.addEventListener('keydown', onKeyDown);

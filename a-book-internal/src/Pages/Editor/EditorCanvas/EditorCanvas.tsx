@@ -19,13 +19,13 @@ const EditorCanvas = () => {
   const [items, setItems] = useRecoilState(canvasItems);
   const setSelectedItems = useSetRecoilState(selectedCanvasItems);
   const editorRef = useRef<HTMLElement>(null);
-  useHandleKeys();
 
   const { isMouseOver } = useMouseOn(editorRef);
   const selectedArea = useEditorSelectedArea(editorRef, (area) => {
     //console.log(area);
   });
 
+  useHandleKeys(isMouseOver);
   const addItem = (item: ItemData) => {
     setItems([...items, item]);
     setSelectedItems([item.id]);
