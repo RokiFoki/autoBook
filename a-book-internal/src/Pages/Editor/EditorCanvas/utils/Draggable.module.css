@@ -4,6 +4,11 @@
 }
 
 .draggableIcon {
+  /* 
+  // useful for testing ghost image 
+  position: fixed;
+  top: 0;
+  left: 0; */
   position: absolute;
   transform: translate(-10000px, -10000px);
 }

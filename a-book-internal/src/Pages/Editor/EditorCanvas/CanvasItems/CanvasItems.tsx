@@ -107,7 +107,7 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
               rotation={rotation}
               divProps={{
                 onClick: onItemClick(id),
-                className: classNames(styles.item, styles.selectedItem),
+                className: classNames(styles.selectedItem),
               }}
             >
               <Table type={itemType} />

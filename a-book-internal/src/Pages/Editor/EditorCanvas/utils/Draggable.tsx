@@ -32,13 +32,13 @@ const Draggable = ({
           duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
           const firstChild = ref.current.firstChild as HTMLDivElement;
           const rect = firstChild.getBoundingClientRect();
-          (duplicatedDiv.firstChild as HTMLDivElement).className = "";
+
           duplicatedDiv.classList.add(styles.draggableIcon);
-          (
-            duplicatedDiv.firstChild as HTMLDivElement
-          ).style.transform = `scale(${zoom})`;
-          (duplicatedDiv.firstChild as HTMLDivElement).style.transformOrigin =
-            "left top";
+          // if bellow lines cause issues, consider have browser specific code (ie. if (browser === 'chrome') X else if ...)
+          ((duplicatedDiv as HTMLDivElement).style as any).zoom = zoom; // scale for some reason doesn't work on chrome
+          (duplicatedDiv as HTMLDivElement).style.transform = `scale(${zoom})`; // firefox
+          (duplicatedDiv as HTMLDivElement).style.transformOrigin = "left top";
+
           document.body.appendChild(duplicatedDiv);
 
           e.dataTransfer.setDragImage(
