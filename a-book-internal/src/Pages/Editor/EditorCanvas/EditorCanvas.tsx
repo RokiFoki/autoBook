@@ -12,12 +12,14 @@ import ItemPreview from "./ItemPreview/ItemPreview";
 import canvasZoom from "./recoil/canvasZoom";
 import SelectionArea from "./SelectionArea/SelectionArea";
 import useEditorSelectedArea from "./SelectionArea/useEditorSelectedArea";
+import useHandleKeys from "./useHandleKeys";
 
 const EditorCanvas = () => {
   const operation = useRecoilValue(operationInProgress);
   const [items, setItems] = useRecoilState(canvasItems);
   const setSelectedItems = useSetRecoilState(selectedCanvasItems);
   const editorRef = useRef<HTMLElement>(null);
+  useHandleKeys();
 
   const { isMouseOver } = useMouseOn(editorRef);
   const selectedArea = useEditorSelectedArea(editorRef, (area) => {
