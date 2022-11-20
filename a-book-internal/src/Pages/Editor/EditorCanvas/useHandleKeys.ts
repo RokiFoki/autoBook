@@ -50,7 +50,7 @@ const useHandleKeys = (isEditorFocused: boolean) => {
     if (target) {
 
       const onKeyDown = (ev: KeyboardEvent) => {
-        console.log(ev.key)
+        //console.log(ev.key)
         if (ev.key === 'Escape') return handleEscape();
         if (ev.key === 'z' && ev.ctrlKey) return handleUndo();
         if (

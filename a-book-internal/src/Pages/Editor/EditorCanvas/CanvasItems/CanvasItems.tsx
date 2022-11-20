@@ -62,7 +62,10 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
     setSelectedItems
   );
 
-  const selectItem = (id: ItemData["id"]) => {
+  const selectItem = (
+    id: ItemData["id"],
+    ev: React.MouseEvent<Element, MouseEvent>
+  ) => {
     if (
       operation === null ||
       (operation === "Add" && selectedTypeToAdd === null)
@@ -72,6 +75,15 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
     }
 
     if (operation === "Select") {
+      if (ev.ctrlKey) {
+        return setSelectedItems((itemIds) => {
+          if (itemIds.includes(id))
+            return itemIds.filter((item) => item !== id);
+
+          return [...itemIds, id];
+        });
+      }
+
       setSelectedItems([id]);
     }
   };
@@ -98,16 +110,18 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
   const onItemClick =
     (id: ItemData["id"]): React.MouseEventHandler =>
     (e) => {
-      selectItem(id);
+      selectItem(id, e);
     };
 
-  const selectdItems = items.filter(({ id }) => selectedItems.includes(id));
+  const selectedItemsData = items.filter(({ id }) =>
+    selectedItems.includes(id)
+  );
   const notSelectdItems = items.filter(({ id }) => !selectedItems.includes(id));
 
   return (
     <>
-      <Draggable enable onDrag={updateItemPosition(selectdItems)}>
-        {selectdItems.map((item) => {
+      <Draggable enable onDrag={updateItemPosition(selectedItemsData)}>
+        {selectedItemsData.map((item) => {
           const { x, y, itemType, id, rotation } = item;
           return (
             <TransformDiv
