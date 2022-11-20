@@ -14,6 +14,7 @@ import Draggable, { DraggOffset } from "../utils/Draggable";
 import { Area } from "../SelectionArea/useEditorSelectedArea";
 import { useEffect, useRef } from "react";
 import getBoxFromArea from "../SelectionArea/utils/getBoxFromArea";
+import { selectedAddItemType } from "../../recoil/selectedAddItemType";
 
 type CanvasItemsProps = {
   items: ItemData[];
@@ -51,8 +52,9 @@ const useUpdateSelectedItemsFromArea = (
 };
 
 const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
-  const operation = useRecoilValue(operationInProgress);
+  const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
+  const selectedTypeToAdd = useRecoilValue(selectedAddItemType);
   useUpdateSelectedItemsFromArea(
     selectedArea,
     items,
@@ -61,6 +63,14 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
   );
 
   const selectItem = (id: ItemData["id"]) => {
+    if (
+      operation === null ||
+      (operation === "Add" && selectedTypeToAdd === null)
+    ) {
+      setOperation("Select");
+      setSelectedItems([id]);
+    }
+
     if (operation === "Select") {
       setSelectedItems([id]);
     }

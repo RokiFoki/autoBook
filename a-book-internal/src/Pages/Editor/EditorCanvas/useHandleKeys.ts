@@ -3,13 +3,15 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import useEvent from '../../../utils/hooks/useEvent';
 import { canvasItems } from '../recoil/canvas/canvasItems';
 import { selectedCanvasItems } from '../recoil/canvas/selectedCanvasItems';
-import { operationInProgress } from '../recoil/operation';
+import { Operation, operationInProgress } from '../recoil/operation';
 import { selectedAddItemType } from '../recoil/selectedAddItemType';
+
+const defaultOperation: Operation = null;
 
 const useHandleKeys = (isEditorFocused: boolean) => {
   const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItemTypeToAdd, setSelecteditemTypeToadd] = useRecoilState(selectedAddItemType)
-  const selectedItems = useRecoilValue(selectedCanvasItems);
+  const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
   const setItems = useSetRecoilState(canvasItems);
 
   const handleEscape = useEvent(() => {
@@ -18,7 +20,14 @@ const useHandleKeys = (isEditorFocused: boolean) => {
         return setSelecteditemTypeToadd(null)
       }
 
-      return setOperation(null);
+      return setOperation(defaultOperation);
+    }
+
+    if (operation === 'Select') {
+      if (selectedItems?.length) {
+        return setSelectedItems([]);
+      }
+      return setOperation(defaultOperation);
     }
   })
 
