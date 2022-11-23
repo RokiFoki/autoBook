@@ -13,6 +13,7 @@ export type Area = {
 
 const useEditorSelectedArea = <T extends HTMLElement>(
   ref: React.RefObject<T>,
+  enabled: boolean,
   _onSelect: (area: Area) => unknown
 ) => {
   const { ref: selectedAreaRef, state: selectedArea, setter: setSelectedArea } = useStateRef<Area | null>(null);
@@ -21,7 +22,7 @@ const useEditorSelectedArea = <T extends HTMLElement>(
   const zoom = useRecoilValue(canvasZoom);
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && enabled) {
       const target = ref.current;
       const onMouseDown = (e: MouseEvent) => {
         const rect = target.getBoundingClientRect();
@@ -60,7 +61,7 @@ const useEditorSelectedArea = <T extends HTMLElement>(
         target.removeEventListener("mousemove", onMouseMove);
       };
     }
-  }, [onSelect, ref, selectedAreaRef, zoom]);
+  }, [enabled, onSelect, ref, selectedAreaRef, setSelectedArea, zoom]);
 
   return selectedArea;
 };

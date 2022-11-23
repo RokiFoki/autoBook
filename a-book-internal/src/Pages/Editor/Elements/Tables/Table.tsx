@@ -2,6 +2,7 @@ import CorneredTable4 from "./CorneredTable4";
 import CorneredTable2 from "./CorneredTable2";
 import RoundedTable2 from "./RoundedTable2";
 import RoundedTable4 from "./RoundedTable4";
+import classNames from "classnames";
 
 export type TableType =
   | "RoundedTable2"
@@ -17,7 +18,7 @@ type TableProps = {
 
 const Table = ({ type, width = 72, className }: TableProps) => {
   return (
-    <div style={{ width }} className={className}>
+    <div style={{ width }} className={classNames(className, "noselect")}>
       <TableImage type={type} />
     </div>
   );

@@ -29,9 +29,13 @@ const EditorCanvas = () => {
 
   const { isMouseOver } = useMouseOn(editorRef);
   const dragging = useDraggingMove(scrollableContainerRef, operation === null);
-  const selectedArea = useEditorSelectedArea(scrollableContainerRef, (area) => {
-    //console.log(area);
-  });
+  const selectedArea = useEditorSelectedArea(
+    scrollableContainerRef,
+    operation === "Select",
+    (area) => {
+      //console.log(area);
+    }
+  );
 
   useHandleKeys(isMouseOver, editorRef);
   const addItem = (item: ItemData) => {
