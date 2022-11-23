@@ -152,7 +152,8 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
               onClick: onItemClick(id),
 
               className: classNames(styles.item, {
-                [styles.selectable]: operation === "Select",
+                [styles.selectable]:
+                  operation === "Select" || operation == null,
               }),
             }}
           >

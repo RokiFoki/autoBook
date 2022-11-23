@@ -7,6 +7,7 @@ import { operationInProgress } from "../recoil/operation";
 import CanvasItems from "./CanvasItems/CanvasItems";
 import FooterControls from "./Controls/FooterControls/FooterControls";
 import styles from "./EditorCanvas.module.css";
+import useDraggingMove from "./hooks/useDraggingMove";
 import useMouseOn from "./hooks/useMouseOn";
 import ItemPreview from "./ItemPreview/ItemPreview";
 import canvasZoom from "./recoil/canvasZoom";
@@ -27,6 +28,7 @@ const EditorCanvas = () => {
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
 
   const { isMouseOver } = useMouseOn(editorRef);
+  const dragging = useDraggingMove(scrollableContainerRef, operation === null);
   const selectedArea = useEditorSelectedArea(scrollableContainerRef, (area) => {
     //console.log(area);
   });
@@ -57,7 +59,11 @@ const EditorCanvas = () => {
         <div
           className={classNames(
             styles.editorCanvasContent,
-            operation && styles[operation]
+            operation && styles[operation],
+            {
+              [styles["draggable"]]: !dragging && operation === null,
+              [styles["dragging"]]: dragging,
+            }
           )}
           style={{
             width: `${CanvasWitdh}px`,

@@ -14,3 +14,11 @@
 .editorCanvasContent.Select {
   cursor: crosshair;
 }
+
+.draggable {
+  cursor: grab;
+}
+
+.dragging {
+  cursor: grabbing;
+}

@@ -15,8 +15,7 @@ const useEditorSelectedArea = <T extends HTMLElement>(
   ref: React.RefObject<T>,
   _onSelect: (area: Area) => unknown
 ) => {
-  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
-  const selectedAreaRef = useStateRef(selectedArea);
+  const { ref: selectedAreaRef, state: selectedArea, setter: setSelectedArea } = useStateRef<Area | null>(null);
 
   const onSelect = useEvent(_onSelect);
   const zoom = useRecoilValue(canvasZoom);
