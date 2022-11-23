@@ -71,19 +71,24 @@ const ItemPreview = ({
       name: `Table${cnt}`,
       itemType: item,
       x: Math.round(
-        (x - rootX - width / 2) / zoom +
-          scrollableContainerRef.current.scrollLeft
+        (x - rootX - width / 2 + scrollableContainerRef.current.scrollLeft) /
+          zoom
       ),
       y: Math.round(
-        (y - rootY - height / 2) / zoom +
-          scrollableContainerRef.current.scrollTop
+        (y - rootY - height / 2 + scrollableContainerRef.current.scrollTop) /
+          zoom
       ),
       rotation: 0,
     });
   };
 
   return (
-    <div ref={tableRef} className={styles.table} onClick={addItem}>
+    <div
+      ref={tableRef}
+      className={styles.table}
+      onClick={addItem}
+      style={{ transform: `scale(${zoom})`, transformOrigin: "left top" }}
+    >
       {item && <Table type={item} />}
     </div>
   );
