@@ -27,10 +27,10 @@ const useEditorSelectedArea = <T extends HTMLElement>(
       const onMouseDown = (e: MouseEvent) => {
         const rect = target.getBoundingClientRect();
         setSelectedArea({
-          startX: (e.clientX - rect.x) / zoom + target.scrollLeft,
-          startY: (e.clientY - rect.y) / zoom + target.scrollTop,
-          endX: (e.clientX - rect.x) / zoom + target.scrollLeft,
-          endY: (e.clientY - rect.y) / zoom + target.scrollTop,
+          startX: (e.clientX - rect.x + target.scrollLeft) / zoom,
+          startY: (e.clientY - rect.y + target.scrollTop) / zoom,
+          endX: (e.clientX - rect.x + target.scrollLeft) / zoom,
+          endY: (e.clientY - rect.y + target.scrollTop) / zoom,
         });
       };
 
@@ -46,8 +46,8 @@ const useEditorSelectedArea = <T extends HTMLElement>(
           const rect = target.getBoundingClientRect();
           setSelectedArea({
             ...selectedAreaRef.current,
-            endX: (e.clientX - rect.x) / zoom + target.scrollLeft,
-            endY: (e.clientY - rect.y) / zoom + target.scrollTop,
+            endX: (e.clientX - rect.x + target.scrollLeft) / zoom,
+            endY: (e.clientY - rect.y + target.scrollTop) / zoom,
           });
         }
       };
