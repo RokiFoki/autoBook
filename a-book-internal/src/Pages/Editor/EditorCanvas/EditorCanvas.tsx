@@ -54,9 +54,10 @@ const EditorCanvas = () => {
     <article className={styles.EditorCanvas} ref={editorRef}>
       <div
         ref={scrollableContainerRef}
+        className={styles.EditorCanvasScrollable}
         style={{
-          height: `max(${100 / zoom}%, 100%)`,
-          width: `max(${100 / zoom}%, 100%)`,
+          height: `100%`, // has to be style, for some reason :thinking:
+          width: `100%`,
           overflow: "auto",
         }}
       >
