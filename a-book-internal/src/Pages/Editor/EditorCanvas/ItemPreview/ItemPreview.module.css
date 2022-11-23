@@ -1,5 +1,5 @@
 .table {
-  position: absolute;
+  position: fixed;
   opacity: 0.5;
 }
 

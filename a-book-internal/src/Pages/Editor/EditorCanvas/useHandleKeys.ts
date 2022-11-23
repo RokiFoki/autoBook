@@ -5,13 +5,15 @@ import { canvasItems } from '../recoil/canvas/canvasItems';
 import { selectedCanvasItems } from '../recoil/canvas/selectedCanvasItems';
 import { Operation, operationInProgress } from '../recoil/operation';
 import { selectedAddItemType } from '../recoil/selectedAddItemType';
+import canvasZoom from './recoil/canvasZoom';
 
 const defaultOperation: Operation = null;
 
-const useHandleKeys = (isEditorFocused: boolean) => {
+const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTMLElement>) => {
   const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItemTypeToAdd, setSelecteditemTypeToadd] = useRecoilState(selectedAddItemType)
   const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
+  const zoom = useRecoilValue(canvasZoom)
   const setItems = useSetRecoilState(canvasItems);
 
   const handleEscape = useEvent(() => {
@@ -50,7 +52,6 @@ const useHandleKeys = (isEditorFocused: boolean) => {
     if (target) {
 
       const onKeyDown = (ev: KeyboardEvent) => {
-        //console.log(ev.key)
         if (ev.key === 'Escape') return handleEscape();
         if (ev.key === 'z' && ev.ctrlKey) return handleUndo();
         if (

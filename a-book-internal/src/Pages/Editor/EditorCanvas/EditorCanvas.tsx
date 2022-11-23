@@ -13,19 +13,25 @@ import canvasZoom from "./recoil/canvasZoom";
 import SelectionArea from "./SelectionArea/SelectionArea";
 import useEditorSelectedArea from "./SelectionArea/useEditorSelectedArea";
 import useHandleKeys from "./useHandleKeys";
+import {
+  CanvasHeight,
+  CanvasWitdh,
+} from "./utils/canvasTransformHelpers/canvasDimensions";
+import CursorEditorMovment from "./utils/canvasTransformHelpers/CursorEditorMovment";
 
 const EditorCanvas = () => {
   const operation = useRecoilValue(operationInProgress);
   const [items, setItems] = useRecoilState(canvasItems);
   const setSelectedItems = useSetRecoilState(selectedCanvasItems);
   const editorRef = useRef<HTMLElement>(null);
+  const scrollableContainerRef = useRef<HTMLDivElement>(null);
 
   const { isMouseOver } = useMouseOn(editorRef);
-  const selectedArea = useEditorSelectedArea(editorRef, (area) => {
+  const selectedArea = useEditorSelectedArea(scrollableContainerRef, (area) => {
     //console.log(area);
   });
 
-  useHandleKeys(isMouseOver);
+  useHandleKeys(isMouseOver, editorRef);
   const addItem = (item: ItemData) => {
     setItems([...items, item]);
     setSelectedItems([item.id]);
@@ -41,23 +47,37 @@ const EditorCanvas = () => {
   return (
     <article className={styles.EditorCanvas} ref={editorRef}>
       <div
-        className={classNames(
-          styles.editorCanvasContent,
-          operation && styles[operation]
-        )}
-        style={{ transform: `scale(${zoom})`, transformOrigin: "left top" }}
-        onDragOver={onDragOver}
-        onDrop={() => null}
+        ref={scrollableContainerRef}
+        style={{
+          height: `max(${100 / zoom}%, 100%)`,
+          width: `max(${100 / zoom}%, 100%)`,
+          overflow: "auto",
+        }}
       >
-        <CanvasItems items={items} selectedArea={selectedArea} />
+        <div
+          className={classNames(
+            styles.editorCanvasContent,
+            operation && styles[operation]
+          )}
+          style={{
+            width: `${CanvasWitdh}px`,
+            height: `${CanvasHeight}px`,
+            transform: `scale(${zoom})`,
+            transformOrigin: "left top",
+          }}
+          onDragOver={onDragOver}
+          onDrop={() => null}
+        >
+          <CursorEditorMovment editorRef={editorRef} />
+          <CanvasItems items={items} selectedArea={selectedArea} />
 
+          <SelectionArea area={selectedArea} />
+        </div>
         <ItemPreview
           onAddItem={addItem}
-          rootRef={editorRef}
+          scrollableContainerRef={scrollableContainerRef}
           show={isMouseOver && operation === "Add"}
         />
-
-        <SelectionArea area={selectedArea} />
       </div>
       <FooterControls />
     </article>

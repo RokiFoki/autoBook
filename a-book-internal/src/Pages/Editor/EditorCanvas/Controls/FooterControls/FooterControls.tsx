@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import { useSetRecoilState } from "recoil";
 import canvasZoom from "../../recoil/canvasZoom";
+import updateCanvasZoom from "../../utils/canvasTransformHelpers/updateCanvasZoom";
 import styles from "./FooterControls.module.css";
 
 const FooterControls = () => {
@@ -9,9 +10,7 @@ const FooterControls = () => {
     (offset: number): React.MouseEventHandler =>
     (e) => {
       e.stopPropagation();
-      setCanvasZoom((zoom) => {
-        return Math.max(Math.min(zoom + offset, 2), 0.5);
-      });
+      updateCanvasZoom(setCanvasZoom, offset);
     };
 
   return (

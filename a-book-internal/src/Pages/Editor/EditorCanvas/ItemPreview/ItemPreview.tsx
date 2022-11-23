@@ -9,7 +9,7 @@ import styles from "./ItemPreview.module.css";
 import canvasZoom from "../recoil/canvasZoom";
 
 const useTablePreview = (
-  rootRef: React.RefObject<HTMLElement>,
+  containerRef: React.RefObject<HTMLElement>,
   show: boolean,
   tableRef: React.RefObject<HTMLDivElement>
 ) => {
@@ -19,12 +19,8 @@ const useTablePreview = (
   const setPreview = useEvent((e: MouseEvent) => {
     if (tableRef.current && boundingBoxRef.current && show) {
       tableRef.current.style.display = "initial";
-      tableRef.current.style.left = `${
-        (e.x - boundingBoxRef.current.x) / zoom
-      }px`;
-      tableRef.current.style.top = `${
-        (e.y - boundingBoxRef.current.y) / zoom
-      }px`;
+      tableRef.current.style.left = `${e.x}px`;
+      tableRef.current.style.top = `${e.y}px`;
     }
   });
 
@@ -33,44 +29,55 @@ const useTablePreview = (
       const onMouseMove = (e: MouseEvent) => {
         setPreview(e);
       };
-      rootRef.current?.addEventListener("mousemove", onMouseMove);
-      boundingBoxRef.current = rootRef.current?.getBoundingClientRect();
+      containerRef.current?.addEventListener("mousemove", onMouseMove);
+      boundingBoxRef.current = containerRef.current?.getBoundingClientRect();
 
-      const root = rootRef.current;
+      const root = containerRef.current;
       return () => root?.removeEventListener("mousemove", onMouseMove);
     } else {
       if (tableRef.current) {
         tableRef.current.style.display = "none";
       }
     }
-  }, [show, rootRef, boundingBoxRef, setPreview, tableRef]);
+  }, [show, containerRef, boundingBoxRef, setPreview, tableRef]);
 };
 
 type ItemPreviewProps = {
   show: boolean;
-  rootRef: React.RefObject<HTMLElement>;
+  scrollableContainerRef: React.RefObject<HTMLElement>;
   onAddItem: (item: ItemData) => unknown;
 };
-const ItemPreview = ({ show, rootRef, onAddItem }: ItemPreviewProps) => {
+const ItemPreview = ({
+  show,
+  scrollableContainerRef,
+  onAddItem,
+}: ItemPreviewProps) => {
   const [cnt, setCnt] = usePersistentState<number>(1, "Editor/ItemPreview/cnt");
   const item = useRecoilValue(selectedAddItemType);
 
   const tableRef = useRef<HTMLDivElement>(null);
-  useTablePreview(rootRef, show, tableRef);
+  useTablePreview(scrollableContainerRef, show, tableRef);
   const zoom = useRecoilValue(canvasZoom);
 
   const addItem: MouseEventHandler = (e) => {
-    if (!tableRef.current || !item || !rootRef.current) return;
+    if (!tableRef.current || !item || !scrollableContainerRef.current) return;
     const { x, y, width, height } = tableRef.current.getBoundingClientRect();
-    const { x: rootX, y: rootY } = rootRef.current.getBoundingClientRect();
+    const { x: rootX, y: rootY } =
+      scrollableContainerRef.current.getBoundingClientRect();
 
     setCnt(cnt + 1);
     onAddItem({
       id: cnt,
       name: `Table${cnt}`,
       itemType: item,
-      x: Math.round((x - rootX - width / 2) / zoom),
-      y: Math.round((y - rootY - height / 2) / zoom),
+      x: Math.round(
+        (x - rootX - width / 2) / zoom +
+          scrollableContainerRef.current.scrollLeft
+      ),
+      y: Math.round(
+        (y - rootY - height / 2) / zoom +
+          scrollableContainerRef.current.scrollTop
+      ),
       rotation: 0,
     });
   };
