@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { useRef } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import useAddItem from "../actions/useAddItem";
 import { canvasItems, ItemData } from "../recoil/canvas/canvasItems";
 import { selectedCanvasItems } from "../recoil/canvas/selectedCanvasItems";
 import { operationInProgress } from "../recoil/operation";
@@ -22,10 +23,11 @@ import CursorEditorMovment from "./utils/canvasTransformHelpers/CursorEditorMovm
 
 const EditorCanvas = () => {
   const operation = useRecoilValue(operationInProgress);
-  const [items, setItems] = useRecoilState(canvasItems);
+  const items = useRecoilValue(canvasItems);
   const setSelectedItems = useSetRecoilState(selectedCanvasItems);
   const editorRef = useRef<HTMLElement>(null);
   const scrollableContainerRef = useRef<HTMLDivElement>(null);
+  const addItem = useAddItem();
 
   const { isMouseOver } = useMouseOn(editorRef);
   const dragging = useDraggingMove(scrollableContainerRef, operation === null);
@@ -38,8 +40,8 @@ const EditorCanvas = () => {
   );
 
   useHandleKeys(isMouseOver, editorRef);
-  const addItem = (item: ItemData) => {
-    setItems([...items, item]);
+  const addAndSelectItem = (item: ItemData) => {
+    addItem(item);
     setSelectedItems([item.id]);
   };
 
@@ -85,7 +87,7 @@ const EditorCanvas = () => {
           <SelectionArea area={selectedArea} />
         </div>
         <ItemPreview
-          onAddItem={addItem}
+          onAddItem={addAndSelectItem}
           scrollableContainerRef={scrollableContainerRef}
           show={isMouseOver && operation === "Add"}
         />
