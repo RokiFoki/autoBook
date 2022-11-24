@@ -30,16 +30,8 @@ export const constructUndoAction = (undoAction: UndoRedoAction['action'], redoAc
 export const useAddUndoAction = () => {
   const setUndoRedostate = useSetRecoilState(undoRedoState);
 
-  return useEvent((action: UndoRedoAction) => {
-    undoActions.push(action);
-    setUndoRedostate(val => val + 1);
-  })
-}
-
-export const useResetRedo = () => {
-  const setUndoRedostate = useSetRecoilState(undoRedoState);
-
-  return useEvent(() => {
+  return useEvent((undoAction: UndoRedoAction['action'], redoAction: UndoRedoAction['oppositeAction']['action']) => {
+    undoActions.push(constructUndoAction(undoAction, redoAction));
     redoActions = [];
     setUndoRedostate(val => val + 1);
   })
