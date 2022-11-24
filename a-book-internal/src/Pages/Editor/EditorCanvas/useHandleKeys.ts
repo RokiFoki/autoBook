@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import useEvent from '../../../utils/hooks/useEvent';
 import useRemoveItems from '../actions/useRemoveItems';
-import { canvasItems } from '../recoil/canvas/canvasItems';
 import { selectedCanvasItems } from '../recoil/canvas/selectedCanvasItems';
+import useUndoRedoActions from '../recoil/history/useUndoRedoActions';
 import { Operation, operationInProgress } from '../recoil/operation';
 import { selectedAddItemType } from '../recoil/selectedAddItemType';
 
@@ -14,6 +14,7 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
   const [selectedItemTypeToAdd, setSelecteditemTypeToadd] = useRecoilState(selectedAddItemType)
   const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
   const removeItems = useRemoveItems();
+  const undoRedo = useUndoRedoActions();
 
   const handleEscape = useEvent(() => {
     if (operation === 'Add') {
@@ -33,11 +34,11 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
   })
 
   const handleUndo = useEvent(() => {
-
+    undoRedo.undo.action();
   })
 
   const handleRedo = useEvent(() => {
-
+    undoRedo.redo.action();
   })
 
   const handleDelete = useEvent(() => {
