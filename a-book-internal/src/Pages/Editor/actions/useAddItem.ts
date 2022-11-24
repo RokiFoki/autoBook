@@ -1,7 +1,7 @@
 import { useSetRecoilState } from 'recoil';
 import useEvent from '../../../utils/hooks/useEvent';
 import { canvasItems, ItemData } from '../recoil/canvas/canvasItems';
-import { UndoRedoAction, useResetRedo, useAddUndoAction } from '../recoil/history/useUndoRedoActions';
+import { useResetRedo, useAddUndoAction, constructUndoAction } from '../recoil/history/useUndoRedoActions';
 
 const useAddItem = () => {
   const setItems = useSetRecoilState(canvasItems);
@@ -19,14 +19,7 @@ const useAddItem = () => {
       setItems((items) => [...items, item]);
     }
 
-    const undo: UndoRedoAction = {
-      action: undoAction,
-      oppositeAction: {
-        action: redoAction,
-        oppositeAction: null as unknown as UndoRedoAction
-      }
-    }
-    undo.oppositeAction.oppositeAction = undo;
+    const undo = constructUndoAction(undoAction, redoAction);
 
     addUndoAction(undo);
     resetRedo();

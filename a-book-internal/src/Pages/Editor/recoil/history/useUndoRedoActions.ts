@@ -14,6 +14,19 @@ export type UndoRedoAction = {
 let undoActions: (UndoRedoAction)[] = [];
 let redoActions: (UndoRedoAction)[] = [];
 
+export const constructUndoAction = (undoAction: UndoRedoAction['action'], redoAction: UndoRedoAction['oppositeAction']['action']) => {
+  const undo: UndoRedoAction = {
+    action: undoAction,
+    oppositeAction: {
+      action: redoAction,
+      oppositeAction: null as unknown as UndoRedoAction
+    }
+  }
+  undo.oppositeAction.oppositeAction = undo;
+
+  return undo
+}
+
 export const useAddUndoAction = () => {
   const setUndoRedostate = useSetRecoilState(undoRedoState);
 

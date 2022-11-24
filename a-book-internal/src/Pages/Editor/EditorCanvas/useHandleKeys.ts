@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import useEvent from '../../../utils/hooks/useEvent';
+import useRemoveItems from '../actions/useRemoveItems';
 import { canvasItems } from '../recoil/canvas/canvasItems';
 import { selectedCanvasItems } from '../recoil/canvas/selectedCanvasItems';
 import { Operation, operationInProgress } from '../recoil/operation';
 import { selectedAddItemType } from '../recoil/selectedAddItemType';
-import canvasZoom from './recoil/canvasZoom';
 
 const defaultOperation: Operation = null;
 
@@ -13,8 +13,7 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
   const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItemTypeToAdd, setSelecteditemTypeToadd] = useRecoilState(selectedAddItemType)
   const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
-  const zoom = useRecoilValue(canvasZoom)
-  const setItems = useSetRecoilState(canvasItems);
+  const removeItems = useRemoveItems();
 
   const handleEscape = useEvent(() => {
     if (operation === 'Add') {
@@ -43,7 +42,7 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
 
   const handleDelete = useEvent(() => {
     if (isEditorFocused) {
-      setItems(items => items.filter(item => !selectedItems.includes(item.id)))
+      removeItems(selectedItems)
     }
   });
 
