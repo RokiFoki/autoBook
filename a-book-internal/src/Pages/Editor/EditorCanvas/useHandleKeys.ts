@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import useEvent from '../../../utils/hooks/useEvent';
 import useRemoveItems from '../actions/useRemoveItems';
+import useUpdateTableItems from '../DetailsPanel/Forms/TableForm/hooks/useUpdateTableItems';
+import { canvasItemsMap } from '../recoil/canvas/canvasItems';
 import { selectedCanvasItems } from '../recoil/canvas/selectedCanvasItems';
 import useUndoRedoActions from '../recoil/history/useUndoRedoActions';
 import { Operation, operationInProgress } from '../recoil/operation';
@@ -13,6 +15,8 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
   const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItemTypeToAdd, setSelecteditemTypeToadd] = useRecoilState(selectedAddItemType)
   const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
+  const updateCanvasItems = useUpdateTableItems();
+  const itemsMap = useRecoilValue(canvasItemsMap);
   const removeItems = useRemoveItems();
   const undoRedo = useUndoRedoActions();
 
@@ -47,21 +51,49 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
     }
   });
 
+  const onKeyDown = useEvent((ev: KeyboardEvent) => {
+    if (ev.key === 'Escape') return handleEscape();
+    if (ev.key === 'z' && ev.ctrlKey) return handleUndo();
+    if (
+      (ev.key === 'Z' && ev.ctrlKey) ||
+      (ev.key === 'y' && ev.ctrlKey)) return handleRedo();
+    if (ev.key === 'Delete') {
+      // todo: test MacOS
+      return handleDelete()
+    }
+
+    if (selectedItems?.length) {
+      if (ev.key === 'ArrowRight') {
+        ev.preventDefault(); // scrolling
+        return updateCanvasItems(selectedItems.map(id => {
+          const item = itemsMap[id]
+          return { ...item, x: item.x + 1 };
+        }))
+      } else if (ev.key === 'ArrowLeft') {
+        ev.preventDefault(); // scrolling
+        return updateCanvasItems(selectedItems.map(id => {
+          const item = itemsMap[id]
+          return { ...item, x: Math.max(item.x - 1, 0) };
+        }))
+      } else if (ev.key === 'ArrowUp') {
+        ev.preventDefault(); // scrolling
+        return updateCanvasItems(selectedItems.map(id => {
+          const item = itemsMap[id]
+          return { ...item, y: Math.max(item.y - 1, 0) };
+        }))
+      } else if (ev.key === 'ArrowDown') {
+        ev.preventDefault(); // scrolling
+        return updateCanvasItems(selectedItems.map(id => {
+          const item = itemsMap[id]
+          return { ...item, y: item.y + 1 };
+        }))
+      }
+    }
+  })
+
   useEffect(() => {
     const target = window;
     if (target) {
-
-      const onKeyDown = (ev: KeyboardEvent) => {
-        if (ev.key === 'Escape') return handleEscape();
-        if (ev.key === 'z' && ev.ctrlKey) return handleUndo();
-        if (
-          (ev.key === 'Z' && ev.ctrlKey) ||
-          (ev.key === 'y' && ev.ctrlKey)) return handleRedo();
-        if (ev.key === 'Delete') {
-          // todo: test MacOS
-          return handleDelete()
-        }
-      }
 
       target.addEventListener('keydown', onKeyDown);
 
@@ -69,7 +101,7 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
         target.removeEventListener('keydown', onKeyDown);
       }
     }
-  }, [handleEscape, handleRedo, handleUndo])
+  }, [handleEscape, handleRedo, handleUndo, onKeyDown])
 }
 
 export default useHandleKeys;
