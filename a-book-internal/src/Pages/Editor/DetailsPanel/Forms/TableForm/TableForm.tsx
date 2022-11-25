@@ -4,20 +4,20 @@ import styles from "./TableForm.module.css";
 import layoutStyles from "../../../../Shared/layout.module.css";
 import Title from "antd/lib/typography/Title";
 import { ItemData } from "../../../recoil/canvas/canvasItems";
-import useUpdateTableItem from "./hooks/useUpdateTableItem";
+import useUpdateTableItems from "./hooks/useUpdateTableItems";
 import useNumToString from "../../../../../utils/hooks/useNumToString";
 
 type TableFormProps = {
   data: ItemData;
 };
 const TableForm = ({ data }: TableFormProps) => {
-  const updateTableItem = useUpdateTableItem();
+  const updateTableItems = useUpdateTableItems();
 
   const handleChange = <T extends keyof ItemData>(
     key: T,
     value: ItemData[T]
   ) => {
-    updateTableItem({ ...data, [key]: value });
+    updateTableItems([{ ...data, [key]: value }]);
   };
 
   const [x, setX] = useNumToString(data.x, (num) => handleChange("x", num));

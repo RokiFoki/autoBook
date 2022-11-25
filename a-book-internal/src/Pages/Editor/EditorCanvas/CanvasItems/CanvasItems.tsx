@@ -1,13 +1,8 @@
 import classNames from "classnames";
-import {
-  SetterOrUpdater,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 import Table from "../../Elements/Tables/Table";
 import { operationInProgress } from "../../recoil/operation";
-import { canvasItems, ItemData } from "../../recoil/canvas/canvasItems";
+import { ItemData } from "../../recoil/canvas/canvasItems";
 import styles from "./CanvasItems.module.css";
 import { selectedCanvasItems } from "../../recoil/canvas/selectedCanvasItems";
 import Draggable, { DraggOffset } from "../utils/Draggable";
@@ -15,6 +10,7 @@ import { Area } from "../SelectionArea/useEditorSelectedArea";
 import { useEffect, useRef } from "react";
 import getBoxFromArea from "../SelectionArea/utils/getBoxFromArea";
 import { selectedAddItemType } from "../../recoil/selectedAddItemType";
+import useUpdateTableItems from "../../DetailsPanel/Forms/TableForm/hooks/useUpdateTableItems";
 
 type CanvasItemsProps = {
   items: ItemData[];
@@ -87,15 +83,8 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
       setSelectedItems([id]);
     }
   };
-  const setItems = useSetRecoilState(canvasItems);
-  const updateItems = (updatedItems: ItemData[]) => {
-    const updateditemsMap = updatedItems.reduce((a, c) => {
-      a[c.id] = c;
-      return a;
-    }, {} as Record<ItemData["id"], ItemData>);
 
-    setItems((items) => items.map((item) => updateditemsMap[item.id] ?? item));
-  };
+  const updateItems = useUpdateTableItems();
 
   const updateItemPosition = (items: ItemData[]) => (position: DraggOffset) => {
     updateItems(
