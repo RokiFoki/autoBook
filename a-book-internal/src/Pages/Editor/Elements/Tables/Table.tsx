@@ -16,7 +16,7 @@ type TableProps = {
   className?: string;
 };
 
-const Table = ({ type, width = 72, className }: TableProps) => {
+const Table = ({ type, width = 50, className }: TableProps) => {
   return (
     <div style={{ width }} className={classNames(className, "noselect")}>
       <TableImage type={type} />
