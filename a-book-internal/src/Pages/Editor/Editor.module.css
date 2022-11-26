@@ -4,7 +4,16 @@
 }
 
 .content {
+  width: 0;
   flex-grow: 1;
   display: flex;
-  width: 0;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.panelAndCanvas {
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: flex;
+  height: 0;
 }

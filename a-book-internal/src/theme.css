@@ -3,8 +3,15 @@
   --primary-background-color: #936ae6;
   --primary-background-color-selected: #744ebf;
   --primary-background-color-hover: #743fde;
+  --primary-background-text-color: #fff;
 
   --primary-background-color-light: #ae8df2;
   --primary-background-color-light-hover: #a480ee;
   --primary-background-color-light-selected: #9a74e9;
+  --primary-background-text-light-color: #fff;
+
+  --primary-background-color-light-2: #bea4f5;
+  --primary-background-color-light-3: #cebbf8;
+
+  --danger-color: red;
 }

@@ -8,6 +8,7 @@ import { operationInProgress } from "../recoil/operation";
 import CanvasItems from "./CanvasItems/CanvasItems";
 import FooterControls from "./Controls/FooterControls/FooterControls";
 import styles from "./EditorCanvas.module.css";
+import HeaderControls from "./HeaderControls/HeaderControls";
 import useDraggingMove from "./hooks/useDraggingMove";
 import useMouseOn from "./hooks/useMouseOn";
 import ItemPreview from "./ItemPreview/ItemPreview";
@@ -92,6 +93,7 @@ const EditorCanvas = () => {
           show={isMouseOver && operation === "Add"}
         />
       </div>
+      <HeaderControls />
       <FooterControls />
     </article>
   );
