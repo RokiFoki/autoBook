@@ -91,14 +91,23 @@ const useHandleKeys = (isEditorFocused: boolean, editorRef: React.RefObject<HTML
     }
   })
 
+  const onRightClick = useEvent((e: MouseEvent) => {
+    e.preventDefault();
+
+    if (operation === 'Add' && selectedItemTypeToAdd !== null) {
+      return setSelecteditemTypeToadd(null)
+    }
+  })
+
   useEffect(() => {
     const target = window;
     if (target) {
 
       target.addEventListener('keydown', onKeyDown);
-
+      target.addEventListener('contextmenu', onRightClick)
       return () => {
         target.removeEventListener('keydown', onKeyDown);
+        target.removeEventListener('contextmenu', onRightClick)
       }
     }
   }, [handleEscape, handleRedo, handleUndo, onKeyDown])
