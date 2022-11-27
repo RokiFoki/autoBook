@@ -8,19 +8,23 @@ import { ItemData } from "../../recoil/canvas/canvasItems";
 import styles from "./ItemPreview.module.css";
 import canvasZoom from "../recoil/canvasZoom";
 
+const snappingPrecision = 10;
+export const roundPosition = (x: number) => {
+  return Math.round(x / snappingPrecision) * snappingPrecision;
+};
+
 const useTablePreview = (
   containerRef: React.RefObject<HTMLElement>,
   show: boolean,
   tableRef: React.RefObject<HTMLDivElement>
 ) => {
   const boundingBoxRef = useRef<DOMRect | undefined>(undefined);
-  const zoom = useRecoilValue(canvasZoom);
 
   const setPreview = useEvent((e: MouseEvent) => {
     if (tableRef.current && boundingBoxRef.current && show) {
       tableRef.current.style.display = "initial";
-      tableRef.current.style.left = `${e.x}px`;
-      tableRef.current.style.top = `${e.y}px`;
+      tableRef.current.style.left = `${roundPosition(e.x)}px`;
+      tableRef.current.style.top = `${roundPosition(e.y)}px`;
     }
   });
 
