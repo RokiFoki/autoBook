@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import classNames from "classnames";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import useEvent from "../../../../utils/hooks/useEvent";
 import canvasZoom from "../recoil/canvasZoom";
@@ -10,50 +11,75 @@ export type DraggOffset = Position;
 type DraggableProps = {
   enable: boolean;
   onDrag: (offset: DraggOffset) => unknown;
+  containerRef: React.RefObject<HTMLElement>;
 };
 const Draggable = ({
   enable,
   children,
   onDrag: _onDrag,
+  containerRef,
 }: React.PropsWithChildren<DraggableProps>) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [dragging, setDragging] = useState(false);
   const startPositionRef = useRef<Position | null>(null);
   const onDrag = useEvent(_onDrag);
 
   let zoom = useRecoilValue(canvasZoom);
 
   useEffect(() => {
-    if (ref.current && enable) {
+    if (ref.current && enable && containerRef.current) {
       const target = ref.current;
-
-      let duplicatedDiv: HTMLDivElement;
-      const onDragStart = (e: DragEvent) => {
-        if (e.dataTransfer && ref.current) {
-          duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
-          const firstChild = ref.current.firstChild as HTMLDivElement;
-          const rect = firstChild.getBoundingClientRect();
-
-          duplicatedDiv.classList.add(styles.draggableIcon);
-          // if bellow lines cause issues, consider have browser specific code (ie. if (browser === 'chrome') X else if ...)
-          ((duplicatedDiv as HTMLDivElement).style as any).zoom = zoom; // scale for some reason doesn't work on chrome
-          (duplicatedDiv as HTMLDivElement).style.transform = `scale(${zoom})`; // firefox
-          (duplicatedDiv as HTMLDivElement).style.transformOrigin = "left top";
-
-          document.body.appendChild(duplicatedDiv);
-
-          e.dataTransfer.setDragImage(
-            duplicatedDiv,
-            rect.width / 2,
-            rect.height / 2
-          );
-          startPositionRef.current = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2,
-          };
+      const editorBoundingRect = containerRef.current.getBoundingClientRect();
+      const onMouseMove = (e: MouseEvent) => {
+        if (duplicatedDiv && startPositionRef.current && containerRef.current) {
+          const x =
+            editorBoundingRect.x +
+            e.x -
+            startPositionRef.current.x -
+            containerRef.current.scrollLeft;
+          const y =
+            editorBoundingRect.y +
+            e.y -
+            startPositionRef.current.y -
+            containerRef.current.scrollTop;
+          duplicatedDiv.style.left = `${x.toString()}px`;
+          duplicatedDiv.style.top = `${y.toString()}px`;
         }
       };
 
-      const onDragEnd = (e: DragEvent) => {
+      let duplicatedDiv: HTMLDivElement;
+      const onDragStart = (e: MouseEvent) => {
+        if (ref.current && containerRef.current) {
+          setDragging(true);
+          duplicatedDiv = ref.current.cloneNode(true) as HTMLDivElement;
+
+          duplicatedDiv.classList.add(styles.draggableIcon);
+
+          duplicatedDiv.style.transform = `scale(${zoom})`;
+          duplicatedDiv.style.transformOrigin = "left top";
+
+          const x = editorBoundingRect.x - containerRef.current.scrollLeft;
+          const y = editorBoundingRect.y - containerRef.current.scrollTop;
+          duplicatedDiv.style.left = `${x.toString()}px`;
+          duplicatedDiv.style.top = `${y.toString()}px`;
+          duplicatedDiv.style.opacity = "0.5";
+          const fullWidthDiv = document.createElement("div");
+          fullWidthDiv.classList.add(styles.fullWidthDiv);
+          duplicatedDiv.appendChild(fullWidthDiv);
+
+          document.body.appendChild(duplicatedDiv);
+
+          duplicatedDiv.addEventListener("mousemove", onMouseMove);
+          duplicatedDiv.addEventListener("mouseup", onDragEnd);
+
+          startPositionRef.current = { x: e.x, y: e.y };
+        }
+
+        return e.preventDefault();
+      };
+
+      const onDragEnd = (e: MouseEvent) => {
+        setDragging(false);
         if (!startPositionRef.current) return;
 
         onDrag({
@@ -67,16 +93,14 @@ const Draggable = ({
       };
 
       target.addEventListener("dragstart", onDragStart);
-      target.addEventListener("dragend", onDragEnd);
       return () => {
         target.removeEventListener("dragstart", onDragStart);
-        target.removeEventListener("dragend", onDragEnd);
       };
     }
-  }, [ref, enable, onDrag, zoom]);
+  }, [ref, enable, onDrag, zoom, containerRef]);
 
   return (
-    <div ref={ref} draggable="true">
+    <div ref={ref} className={classNames({ [styles.dragging]: dragging })}>
       {children}
     </div>
   );

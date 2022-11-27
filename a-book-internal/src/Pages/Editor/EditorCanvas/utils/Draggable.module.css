@@ -4,11 +4,12 @@
 }
 
 .draggableIcon {
-  /* 
-  // useful for testing ghost image 
-  position: fixed;
-  top: 0;
-  left: 0; */
   position: absolute;
-  transform: translate(-10000px, -10000px);
+}
+
+.fullWidthDiv {
+  width: 2000vw;
+  height: 2000vh;
+  transform: translate(-1000vw, -1000vh);
+  cursor: move;
 }

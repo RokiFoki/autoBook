@@ -15,6 +15,7 @@ import useUpdateTableItems from "../../DetailsPanel/Forms/TableForm/hooks/useUpd
 type CanvasItemsProps = {
   items: ItemData[];
   selectedArea: Area | null;
+  containerRef: React.RefObject<HTMLElement>;
 };
 
 const useUpdateSelectedItemsFromArea = (
@@ -47,7 +48,11 @@ const useUpdateSelectedItemsFromArea = (
   }, [area, setSelectedItems, items, selectedItems]);
 };
 
-const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
+const CanvasItems = ({
+  items,
+  selectedArea,
+  containerRef,
+}: CanvasItemsProps) => {
   const [operation, setOperation] = useRecoilState(operationInProgress);
   const [selectedItems, setSelectedItems] = useRecoilState(selectedCanvasItems);
   const selectedTypeToAdd = useRecoilValue(selectedAddItemType);
@@ -109,7 +114,11 @@ const CanvasItems = ({ items, selectedArea }: CanvasItemsProps) => {
 
   return (
     <>
-      <Draggable enable onDrag={updateItemPosition(selectedItemsData)}>
+      <Draggable
+        enable
+        onDrag={updateItemPosition(selectedItemsData)}
+        containerRef={containerRef}
+      >
         {selectedItemsData.map((item) => {
           const { x, y, itemType, id, rotation } = item;
           return (

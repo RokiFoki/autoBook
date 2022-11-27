@@ -83,7 +83,11 @@ const EditorCanvas = () => {
           onDrop={() => null}
         >
           <CursorEditorMovment editorRef={editorRef} />
-          <CanvasItems items={items} selectedArea={selectedArea} />
+          <CanvasItems
+            items={items}
+            selectedArea={selectedArea}
+            containerRef={scrollableContainerRef}
+          />
 
           <SelectionArea area={selectedArea} />
         </div>
